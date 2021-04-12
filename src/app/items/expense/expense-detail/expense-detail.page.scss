@@ -1,0 +1,65 @@
+.income-detail-content {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    ion-title {
+        height: 60px;
+        position: static;
+        text-align: start;
+        font-size: 21px;
+        font-weight: bold;
+        padding: 15px;
+    }
+
+    .description {
+        display: flex;
+        flex-direction: column;
+        margin: 18px 0px;
+        ion-label {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 400;
+        }
+        ion-text {
+            padding: 0px 15px;
+            font-size: 15px;
+            text-align: justify;
+            line-height: 21px;
+        }
+    }
+
+    .file_evidene {
+        padding: 15px;
+        ion-label {
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .content-success {
+            border: 1px solid #ccc;
+            padding: 12px;
+            border-radius: 15px;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            ion-icon {
+                font-size:24px;
+                margin: 0px 6px;
+            }
+            a { 
+                text-decoration: none;
+                font-size: 18px;
+                color: #ccc;
+            }
+        }
+
+        .content-error {
+            border: 1px solid #ccc;
+            padding: 12px;
+            border-radius: 15px;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+        }
+    }
+}

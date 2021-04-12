@@ -1,0 +1,7 @@
+{
+  "name": "Neoshock Finanzas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

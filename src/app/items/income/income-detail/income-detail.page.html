@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" [routerLink]="['/income']">
+      <ion-button><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Detalles del ingreso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" class="income-detail-content">
+        <ion-title>{{income_objet.income_name}}</ion-title>
+        <ion-list>
+          <ion-item><ion-label>Fecha estimada de cobro:</ion-label>{{income_objet.income_dateReceive}}</ion-item>
+          <ion-item><ion-label>Monto estimado:</ion-label>${{income_objet.income_ammount}}</ion-item>
+          <ion-item><ion-label>Cuenta destino:</ion-label>
+            <p *ngIf="income_objet.income_accountDestine != null">{{income_objet.income_accountDestine}}</p>
+            <p *ngIf="income_objet.income_accountDestine == null">Dinero en efectivo</p>
+          </ion-item>
+          <ion-item><ion-label>Estado de cobro:</ion-label> 
+            <strong *ngIf="!income_objet.income_status" style="color: rgb(255, 198, 52);">Pendiente</strong> 
+            <strong *ngIf="income_objet.income_status" style="color: rgb(0, 255, 170);">Cobrado</strong> 
+          </ion-item>
+          <div class="description">
+            <ion-label>Descripcion</ion-label>
+            <ion-text>
+              {{income_objet.income_description}}
+            </ion-text>
+          </div>
+          <div class="file_evidene">
+            <ion-label>Archivo evidencia</ion-label>
+            <div class="content-success" *ngIf="income_objet.income_file != null">
+              <ion-icon name="document" color="success"></ion-icon>
+              <a target="_blank" href="{{income_objet.income_file}}">Ver archivo evidencia</a>
+            </div>
+            <div class="content-error" *ngIf="income_objet.income_file == null">
+              <ion-text>
+                El documento no contiene algun archivo como evidencia
+              </ion-text>
+            </div>
+          </div>
+        </ion-list>        
+      </ion-col>
+      <ion-col size="12">
+        <ion-button *ngIf="!income_objet.income_status" color="success" expand="full" (click)="incomeSuccess()">Cobrar ingreso</ion-button> 
+        <!-- <ion-button color="primary" expand="full">Editar imformacion de ingreso</ion-button>   -->
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

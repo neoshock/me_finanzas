@@ -1,0 +1,54 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" class="income-header">
+        <div class="title">
+          <ion-title>Nuevo ingreso</ion-title>
+        </div>
+        <div class="sub-title">
+          <ion-text>
+            Aqui puede ingresar cualquier activo que haya recibido
+          </ion-text>
+        </div>
+      </ion-col>
+      <ion-col size="12" class="income-content">
+        <form [formGroup]="new_income" (ngSubmit)="addNewIncome()">
+          <ion-label>Nombre del ingreso</ion-label>
+          <ion-input placeholder="  Escriba el nombre del ingreso" formControlName="income_name"></ion-input>
+          <ion-label>Descripcion</ion-label>
+          <ion-textarea placeholder="  Describa de que se trata el ingreso..." rows="6" cols="20" formControlName="income_description"></ion-textarea>
+          <ion-label>Monto</ion-label>
+          <ion-input placeholder="  Escriba la cantidad a recibir" type="number" formControlName="income_ammount"></ion-input>
+          <ion-label>Fecha de cobro</ion-label>
+          <div class="input input-calendar">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-datetime slot="end" displayFormat="DD/MM/YYYY" value="11/04/2021" isplay-timezone="utc"  formControlName="income_dateReceive"></ion-datetime>
+          </div>
+
+          <div class="input input-select">
+            <ion-label>Cuenta destino</ion-label>
+            <ion-select value="default" okText="Aceptar" cancelText="Cancelar" formControlName="income_accountDestine">
+              <ion-select-option value="default">Seleccione una cuenta</ion-select-option>
+              <ion-select-option *ngFor="let item of accountItems" value="{{item.id}}">{{item.data.name_account}}</ion-select-option>
+            </ion-select>
+          </div>
+
+          <div class="input input-toggle">
+            <ion-label>Cobro realizado</ion-label>
+            <ion-toggle color="secondary" formControlName="income_status"></ion-toggle>
+          </div>
+
+          <div class="input input-file">
+            <ion-icon name="document-outline"></ion-icon>
+            <label for="file_add">Seleccione un archivo como evidencia</label>
+            <input type="file" id="file_add" style="display:none;" (change)="fileChange($event)">
+          </div>
+          <div class="input-button">
+            <ion-button shape="round" type="submit">Guardar Ingreso</ion-button>
+            <ion-button color="danger" shape="round" (click)="dismiss()">Cancelar Ingreso</ion-button>
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

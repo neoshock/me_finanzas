@@ -1,0 +1,32 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2 style="text-align: center;">Nescesitamos verificar su cuenta</h2>
+      </ion-col>
+      <ion-col size="12">
+        <p style="text-align: center; color: rgb(131, 131, 131);">A Continuacion debera llenar los siguientes campos y le enviaremos un correo de verificacion a la siguiente direccion: <strong>{{userEmail}}</strong></p>
+      </ion-col>
+      <ion-col size="12">
+        <ion-avatar style="margin: 30px auto; border: 3px solid #000;width: 100px; height: 100px;">
+          <img src="{{image_avatar}}" alt="">
+          <button class="img-add-btn"><label for="input_file">+</label></button>
+          <input type="file" name="file_img" id="input_file" style="display: none;" (change)="addImgUser($event)">
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="12">
+        <form [formGroup]="update_currentUser" (ngSubmit)="verifyUser()">
+          <ion-item>
+            <ion-label>Nombre</ion-label>
+            <ion-input placeholder="Ingrese su nombre" formControlName="user_firtsName"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Apellido</ion-label>
+            <ion-input placeholder="Ingrese su apellido" formControlName="user_lastName"></ion-input>
+          </ion-item>
+          <ion-button expand="block" style="margin: 30px auto;" type="submit">Verificar cuenta</ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

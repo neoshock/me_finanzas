@@ -1,0 +1,107 @@
+.income-header {
+    display: block;
+    padding: 18px;
+    .title {
+        margin: 18px auto;
+        ion-title {
+            position: static;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    }
+    .sub-title {
+        margin: auto;
+        text-align: center;
+        ion-text {
+            color: #ccc;
+        }
+    }
+}
+
+.income-content {
+    ion-label {
+        margin: 0px 6px;
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    ion-input {
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        margin: 18px 0px;
+    }
+
+    ion-textarea {
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        margin: 18px 0px;
+    }
+
+    .input {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .input-calendar {
+        padding: 6px;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        margin-top: 15px;
+
+        ion-icon {
+            font-size: 27px;
+        }
+
+        ion-datetime {
+            color: rgb(71, 71, 71);
+            font-size: 15px;
+        }
+    }
+
+    .input-select {
+        padding: 6px;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        ion-select {
+            color: rgb(71, 71, 71);
+            font-size: 15px;
+        }
+    }
+
+    .input-toggle {
+        padding: 6px;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+    }
+
+    .input-file {
+        padding: 12px;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        justify-content: start;
+        transition: all 0.3s;
+        ion-icon {
+            font-size: 24px;
+            margin-right: 6px;
+            color: #ccc;
+        }
+        label {
+            cursor: pointer;
+            font-size: 18px;
+            color: #ccc;
+        }
+    } 
+    .input-file:active {
+        border: 1px solid rgb(82, 201, 136);
+    } 
+
+    .input-button {
+        display: flex;
+        justify-content: space-around;
+        ion-button {
+            font-size: 15px;
+        }
+    }
+}

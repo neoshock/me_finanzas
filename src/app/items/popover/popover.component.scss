@@ -1,0 +1,15 @@
+.items {
+    li {
+        list-style: none;
+        .ion-button{
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+            transition: all 0.5s;
+            margin: 9px 6px;
+        }
+
+        .ion-button:active{
+            background: #ccc;
+        }
+    }
+}

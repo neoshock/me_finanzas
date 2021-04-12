@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mis Egresos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="income_item" size="12" *ngFor="let item of expenses">
+        <ion-card class="income_content" (click)="showDeatail(item.expense_id)">
+          <ion-card-header>
+            <ion-card-title>{{item.expense_data.expense_name}}</ion-card-title>
+            <ion-text>{{item.expense_data.expense_dateReceive}}</ion-text>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-label>Estado
+              <strong *ngIf="!item.expense_data.expense_status" class="pending">Pendiente</strong>
+              <strong *ngIf="item.expense_data.expense_status" class="success">Pagado</strong>
+            </ion-label>
+            <ion-label>Monto <strong>${{item.expense_data.expense_ammount}}</strong></ion-label>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-label class="label-info" *ngIf="expenses == undefined">
+    <p>
+      Aquí podrás llevar el registro de los gastos que has hecho, no importa de que tipo sea, comienza presionando el botón de mas.
+    </p>
+  </ion-label>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" (click)="presentModal()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

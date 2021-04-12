@@ -1,0 +1,39 @@
+.started-bg {
+    position: relative;
+    top: -100px;
+    left: -40px;
+    width: 600px;
+    height: 200px;
+    background: rgb(230, 178, 225);
+    transform: rotate(-15deg);
+}
+
+.started-content {
+    ion-title {
+        position: relative;
+        top: 0px;
+        text-align: center;
+        font-size: 36px;
+        font-weight: bold;
+    }
+    p {
+        margin: 15px auto;
+        text-align: center;
+        padding: 15px;
+        font-size: 15px;
+        font-weight: 300;
+        color: rgb(134, 134, 134);
+    }
+}
+
+.started-buttons {
+    position: relative;
+    top: 120px;
+    display: flex;
+    justify-content: center;
+    .buttons {
+        ion-button {
+            margin: 0px 15px;
+        }
+    }
+}
