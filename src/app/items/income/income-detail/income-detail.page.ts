@@ -29,10 +29,10 @@ export class IncomeDetailPage implements OnInit {
   private income_id: any = null;
   private account_id: any = null;
   public income_objet: IncomeData = {
-    income_name: "string",
-    income_description: "string",
+    income_name: "Cargando...",
+    income_description: "Cargando...",
     income_ammount: 0,
-    income_dateReceive: "string",
+    income_dateReceive: "Cargando...",
     income_accountDestine: 0,
     income_status:false,
     income_file: null

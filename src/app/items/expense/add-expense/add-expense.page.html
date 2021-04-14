@@ -16,9 +16,9 @@
           <ion-label>Nombre del egreso</ion-label>
           <ion-input placeholder="  Escriba el nombre del ingreso" formControlName="expense_name"></ion-input>
           <ion-label>Descripcion</ion-label>
-          <ion-textarea placeholder="  Describa de que se trata el ingreso..." rows="6" cols="20" formControlName="expense_description"></ion-textarea>
+          <ion-textarea placeholder="  Describa de que se trata el egreso..." rows="6" cols="20" formControlName="expense_description"></ion-textarea>
           <ion-label>Monto</ion-label>
-          <ion-input placeholder="  Escriba la cantidad a recibir" type="number" formControlName="expense_ammount"></ion-input>
+          <ion-input placeholder="  Escriba la cantidad a gastar" type="number" formControlName="expense_ammount"></ion-input>
           <ion-label>Fecha de pago</ion-label>
           <div class="input input-calendar">
             <ion-icon name="calendar-outline"></ion-icon>
@@ -38,11 +38,28 @@
             <ion-toggle color="secondary" formControlName="expense_status"></ion-toggle>
           </div>
 
-          <div class="input input-file">
-            <ion-icon name="document-outline"></ion-icon>
-            <label for="file_add">Seleccione un archivo como evidencia</label>
-            <input type="file" id="file_add" style="display:none;" (change)="fileChange($event)">
+          <div class="input input-photo">
+            <ion-icon name="camera-outline"></ion-icon>
+            <ion-buttons>
+              <ion-button (click)="addPhotoToGallery()">Tomar foto como evidencia</ion-button>
+            </ion-buttons>
           </div>
+  <!-- 
+          <div class="input input-file">
+            <label for="file_add"><ion-icon name="document-outline"></ion-icon>{{file_name}}</label>
+            <input type="file" id="file_add" style="display:none;" (change)="fileChange($event)">
+          </div> -->
+
+          <div class="cancel-button" (click)="cancelPhoto()" *ngIf="this.photo_service.photos != null">
+            X
+          </div>
+
+          <div class="input img" *ngIf="this.photo_service.photos != null">
+            <div class="img-col" *ngFor="let photo of photo_service.photos; index as position">
+              <ion-img [src]="photo.webviewPath"></ion-img>
+            </div>
+          </div>
+
           <div class="input-button">
             <ion-button shape="round" type="submit">Guardar Egreso</ion-button>
             <ion-button color="danger" shape="round" (click)="dismiss()">Cancelar Egreso</ion-button>

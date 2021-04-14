@@ -10,7 +10,7 @@
             <p>Saldo total: <strong style="color: aquamarine;">${{the_user.user_balance}}</strong></p>
           </ion-label>
         </div>
-        <ion-list id="menu_items" class="menu-items" lines="none">
+        <ion-list id="menu_items" class="menu-items" lines="none" *ngIf="onUseVerify">
           <ion-item [routerLink]="[page.url]" (click)="onToggleItem(page)" *ngFor="let page of appPages">
             <ion-icon name="{{page.icon}}"></ion-icon> {{page.title}}
           </ion-item>

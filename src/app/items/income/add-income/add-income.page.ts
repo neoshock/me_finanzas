@@ -5,15 +5,17 @@ import {AccountsService} from '../../../services/accounts.service';
 import {IncomesService} from '../../../services/incomes.service';
 import {AlertController} from '@ionic/angular';
 import {Router} from '@angular/router';
+import {PhotoService} from '../../../services/photo.service';
 
 @Component({
   selector: 'app-add-income',
   templateUrl: './add-income.page.html',
   styleUrls: ['./add-income.page.scss'],
+  providers: [PhotoService, IncomesService,AccountsService]
 })
 export class AddIncomePage implements OnInit {
 
-  constructor(private modalCtrl: ModalController, private account_service: AccountsService, private income_services: IncomesService, private alert: AlertController, private router: Router) { }
+  constructor(private modalCtrl: ModalController, private account_service: AccountsService, private income_services: IncomesService, private alert: AlertController, private router: Router, public photo_service: PhotoService) { }
 
   public accountItems;
 
@@ -45,11 +47,28 @@ export class AddIncomePage implements OnInit {
         this.income_services.addNewIncomeToDataBase(this.new_income.value,this.file_evidence[0]);
         this.presentAlertSuccess();
       }else{
-        this.income_services.addNewIncomeToDataBase(this.new_income.value,this.file_evidence);
+        if (this.photo_service.file_blop != null){
+          this.income_services.uploadPhotoToService(this.photo_service.file_blop,this.new_income.value);
+        }else{
+          this.income_services.addNewIncomeToDataBase(this.new_income.value,this.file_evidence);
+        }
         this.presentAlertSuccess();
       }
     }else{
       this.presentAlert("Uno o mas campos son requeridos");
+    }
+  }
+
+  public cancelPhoto(){
+    this.photo_service.photos = null;
+    this.photo_service.file_blop = null;
+  }
+
+  addPhotoToGallery() {
+    try{
+      this.photo_service.addNewToGallery();
+    }catch {
+      console.log("hubo un error");
     }
   }
 

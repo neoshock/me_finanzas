@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
+  providers: [UserService]
 })
 export class LoginPage implements OnInit {
 
@@ -23,6 +24,7 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithEmail(){
+    console.log(this.user_login.value);
     if(this.user_login.value.email != "" && this.user_login.value.password != ""){
       var user = await this.user_services.login_user(this.user_login.value);
       if(user == "auth/network-request-failed"){
@@ -31,8 +33,8 @@ export class LoginPage implements OnInit {
         this.presentAlert("correo o contrasena incorrectos");
       }else{
         if(user.user.uid != null){
-          this.router.navigate(['/home']);
           window.location.reload();
+          console.log('aqui');
         }
       }
     }else{

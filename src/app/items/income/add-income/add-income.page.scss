@@ -4,6 +4,7 @@
     .title {
         margin: 18px auto;
         ion-title {
+            text-align: center;
             position: static;
             font-size: 24px;
             font-weight: bold;
@@ -76,31 +77,92 @@
         border: 1px solid #ccc;
     }
 
-    .input-file {
+    .added {
         padding: 12px;
         border-radius: 15px;
-        border: 1px solid #ccc;
+        border: 1px solid rgb(21, 216, 167);
         justify-content: start;
         transition: all 0.3s;
         ion-icon {
             font-size: 24px;
             margin-right: 6px;
-            color: #ccc;
+            color: rgb(0, 255, 128);
         }
         label {
             cursor: pointer;
             font-size: 18px;
+            color: rgb(0, 255, 76);
+        }
+    }
+
+    .input-file {
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        justify-content: start;
+        transition: all 0.3s;
+        label {
+            cursor: pointer;
+            font-size: 18px;
             color: #ccc;
+            padding: 9px;
+            display: flex;
+            overflow: auto;
+
+            ion-icon {
+                align-self: center;
+                font-size: 24px;
+                margin-right: 6px;
+                color: #ccc;
+            }
         }
     } 
     .input-file:active {
         border: 1px solid rgb(82, 201, 136);
     } 
 
+    .input-photo {
+        padding: 12px;
+        margin-bottom: 0px;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        justify-content: start;
+        ion-icon {
+            font-size: 24px;
+            margin-right: 6px;
+            color: #ccc;
+        }
+
+    }
+
+    .cancel-button {
+        position: relative;
+        left: 90%;
+        top: 24px;
+        width: 36px;
+        height: 36px;
+        border: 3px solid rgb(255, 0, 0);
+        border-radius: 50%;
+        padding-top: 6px;
+        color: rgb(255, 0, 0);
+        background: #fff;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .img {
+        margin: 0px auto;
+        padding: 12px;
+        border-radius: 15px;
+        border: 1px solid #ccc;
+        justify-content: center;
+    }
+
     .input-button {
+        margin-top: 15px;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-evenly;
         ion-button {
+            width: 45%;
             font-size: 15px;
         }
     }

@@ -32,8 +32,13 @@
           <div class="file_evidene">
             <ion-label>Archivo evidencia</ion-label>
             <div class="content-success" *ngIf="income_objet.income_file != null">
-              <ion-icon name="document" color="success"></ion-icon>
-              <a target="_blank" href="{{income_objet.income_file}}">Ver archivo evidencia</a>
+              <!-- <ion-icon name="document" color="success"></ion-icon>
+              <a target="_blank" href="{{income_objet.income_file}}">Ver archivo evidencia</a> -->
+              
+              <div class="image">
+                <ion-img [src]="income_objet.income_file"></ion-img>
+              </div>
+
             </div>
             <div class="content-error" *ngIf="income_objet.income_file == null">
               <ion-text>

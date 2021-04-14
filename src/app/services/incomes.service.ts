@@ -39,6 +39,27 @@ export class IncomesService {
     }
   }
 
+  public async uploadPhotoToService(photo: any, income){
+    const userUID = (await this.user_service.getCurrentUser()).uid;
+    if(userUID) {
+      if (photo != null){
+        var file_name = new Date().getTime() + '.jpeg';
+        await this.storage.storage.ref().child(`files/${userUID}/incomes/${file_name}`).put(photo);
+        var fileLink = await this.storage.storage.ref().child(`files/${userUID}/incomes/${file_name}`).getDownloadURL().then((url)=>{
+          return url;
+        }).catch((error)=>{
+          console.log(error);
+        });
+        income.income_file = fileLink;
+        await this.firestore.collection(`users/${userUID}/incomes`).add(income).then((docRef) =>{
+        }).catch((error)=>{
+          
+        });
+
+      }
+    } 
+  }
+
   async getIncome(income_id){
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID != null){

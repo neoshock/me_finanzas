@@ -46,7 +46,9 @@ export class UserService {
   }
 
   getCurrentUser(){
-    return this.fire_auth.authState.pipe(first()).toPromise()
+    return  this.fire_auth.setPersistence('local').then(()=>{
+      return this.fire_auth.authState.pipe(first()).toPromise();
+    })
   }
 
   async register_User(user: any){
@@ -71,8 +73,6 @@ export class UserService {
   async logOut_user(){
     this.fire_auth.setPersistence('local').then(()=>{
       this.fire_auth.signOut;
-      localStorage.clear();
-      indexedDB.deleteDatabase("firebaseLocalStorageDb");
     }).catch((error)=>{
       console.log(error);
     });

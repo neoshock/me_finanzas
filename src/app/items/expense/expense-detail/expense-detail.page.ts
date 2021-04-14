@@ -29,10 +29,10 @@ export class ExpenseDetailPage implements OnInit {
   private expense_id: any = null;
   private account_id: any = null;
   public expense_object: ExpenseData = {
-    expense_name: "string",
-    expense_description: "string",
+    expense_name: "Cargando...",
+    expense_description: "Cargando...",
     expense_ammount: 0,
-    expense_dateReceive: "string",
+    expense_dateReceive: "Cargando...",
     expense_accountDestine: 0,
     expense_status:false,
     expense_file: null
