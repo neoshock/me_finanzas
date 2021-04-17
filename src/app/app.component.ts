@@ -56,7 +56,7 @@ export class AppComponent {
   private async loadUserDates(){
     const user = await this.user_service.getCurrentUser();
     if(user != null){
-      //this.router.navigate(['/home']);
+      this.router.navigate(['/home']);
       if(user.emailVerified){
         this.onUseVerify = true;
         this.the_user.user_name = user.displayName;

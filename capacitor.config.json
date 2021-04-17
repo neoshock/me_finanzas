@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "Neoshock Finanzas",
+  "appId": "com.neoshock.finanzas",
+  "appName": "Mis Finanzas ",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
