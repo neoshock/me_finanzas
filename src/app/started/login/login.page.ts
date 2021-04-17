@@ -34,7 +34,6 @@ export class LoginPage implements OnInit {
       }else{
         if(user.user.uid != null){
           window.location.reload();
-          console.log('aqui');
         }
       }
     }else{

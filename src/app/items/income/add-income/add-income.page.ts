@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AccountsService} from '../../../services/accounts.service';
@@ -15,25 +15,52 @@ import {PhotoService} from '../../../services/photo.service';
 })
 export class AddIncomePage implements OnInit {
 
-  constructor(private modalCtrl: ModalController, private account_service: AccountsService, private income_services: IncomesService, private alert: AlertController, private router: Router, public photo_service: PhotoService) { }
+  @Input() data_income: any;
+  @Input() income_id: any;
+  @Input() account_id: any;
+
+  constructor(private modalCtrl: ModalController, private account_service: AccountsService, private income_services: IncomesService, private alert: AlertController, private router: Router, public photo_service: PhotoService) { 
+
+  }
 
   public accountItems;
 
   public dateNow = new Date();
   private file_evidence: File[] = null;
+  private status_income: string = 'empty';
 
   new_income = new FormGroup({
     income_name: new FormControl(''),
     income_description: new FormControl(''),
-    income_ammount: new FormControl(),
-    income_dateReceive: new FormControl('04-11-2021'),
+    income_ammount: new FormControl(null),
+    income_dateReceive: new FormControl('04-16-2021'),
     income_accountDestine: new FormControl('default'),
     income_status: new FormControl(false),
     income_file: new FormControl(null)
-  })
+  }); 
 
   ngOnInit() {
-    this.fillAnyInputs();
+    if (this.data_income != 'empty'){
+      this.loadDatesOfIncome(this.data_income);
+    }else{
+      this.fillAnyInputs();
+    }
+  }
+
+  async loadDatesOfIncome(data){
+    var date = data.income_dateReceive.split('/');
+    if(data.income_file != null){
+      this.photo_service.photos = [{filepath:'empty', webviewPath:data.income_file}];
+    }
+    await this.fillAnyInputs();
+    this.new_income = new FormGroup({
+      income_name: new FormControl(data.income_name),
+      income_description: new FormControl(data.income_description),
+      income_ammount: new FormControl(data.income_ammount),
+      income_dateReceive: new FormControl(`${date[1]}-${date[0]}-${date[2]}`),
+      income_accountDestine: new FormControl(this.account_id),
+      income_status: new FormControl(data.income_status),
+      income_file: new FormControl(data.income_file)});
   }
 
   async fillAnyInputs(){
@@ -41,21 +68,32 @@ export class AddIncomePage implements OnInit {
   }
 
   addNewIncome(){
-    if(this.new_income.value.income_name != "" && this.new_income.value.income_description != "" && this.new_income.value.income_ammount != null && this.new_income.value.income_accountDestine != 'default'){
+    if(this.new_income.value.income_name != "" && this.new_income.value.income_ammount != null && this.new_income.value.income_accountDestine != 'default'){
       this.new_income.value.income_dateReceive = this.formatoFecha(new Date(this.new_income.value.income_dateReceive), 'dd/mm/20yy');
-      if(this.file_evidence != null){
-        this.income_services.addNewIncomeToDataBase(this.new_income.value,this.file_evidence[0]);
-        this.presentAlertSuccess();
-      }else{
-        if (this.photo_service.file_blop != null){
-          this.income_services.uploadPhotoToService(this.photo_service.file_blop,this.new_income.value);
-        }else{
-          this.income_services.addNewIncomeToDataBase(this.new_income.value,this.file_evidence);
+      this.saveChangesForIncome(this.new_income.value);
+      if (this.data_income == 'empty'){
+          if(this.file_evidence != null){
+            this.income_services.addNewIncomeToDataBase(this.new_income.value,this.file_evidence[0]);
+            this.presentAlertSuccess();
+          }else{
+            if (this.photo_service.file_blop != null){
+              this.income_services.uploadPhotoToService(this.photo_service.file_blop,this.new_income.value);
+            }else{
+              this.income_services.addNewIncomeToDataBase(this.new_income.value,this.file_evidence);
+            }
+          this.presentAlertSuccess();
         }
-        this.presentAlertSuccess();
       }
     }else{
       this.presentAlert("Uno o mas campos son requeridos");
+    }
+  }
+
+  saveChangesForIncome(data){
+    if (this.data_income != 'empty'){
+      this.income_services.editDataIncome(data,this.income_id,this.photo_service.file_blop);
+      this.status_income = 'success';
+      this.presentAlertSuccess();
     }
   }
 
@@ -115,7 +153,8 @@ export class AddIncomePage implements OnInit {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalCtrl.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'status': this.status_income
     });
   }
 

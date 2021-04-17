@@ -2,10 +2,13 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" class="income-header">
-        <div class="title">
+        <div class="title" *ngIf="data_income == 'empty'">
           <ion-title>Nuevo ingreso</ion-title>
         </div>
-        <div class="sub-title">
+        <div class="title" *ngIf="data_income != 'empty'">
+          <ion-title>Editar ingreso</ion-title>
+        </div>
+        <div class="sub-title" *ngIf="data_income == 'empty'">
           <ion-text>
             Aqui puede ingresar cualquier activo que haya recibido
           </ion-text>
@@ -22,7 +25,7 @@
           <ion-label>Fecha de cobro</ion-label>
           <div class="input input-calendar">
             <ion-icon name="calendar-outline"></ion-icon>
-            <ion-datetime slot="end" displayFormat="DD/MM/YYYY" value="11/04/2021" isplay-timezone="utc"  formControlName="income_dateReceive"></ion-datetime>
+            <ion-datetime slot="end" displayFormat="DD/MM/YYYY" value="04-16-2021" formControlName="income_dateReceive"></ion-datetime>
           </div>
 
           <div class="input input-select">
@@ -61,9 +64,13 @@
             </div>
           </div>
 
-          <div class="input-button">
+          <div class="input-button" *ngIf="data_income == 'empty'">
             <ion-button shape="round" type="submit">Guardar Ingreso</ion-button>
             <ion-button color="danger" shape="round" (click)="dismiss()">Cancelar Ingreso</ion-button>
+          </div>
+          <div class="input-button" *ngIf="data_income != 'empty'">
+            <ion-button shape="round" type="submit">Guardar Cambios</ion-button>
+            <ion-button color="danger" shape="round" (click)="dismiss()">Cancelar</ion-button>
           </div>
         </form>
       </ion-col>

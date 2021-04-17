@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'add-account',
     loadChildren: () => import('./add-account/add-account.module').then( m => m.AddAccountPageModule)
+  },
+  {
+    path: 'edit-account',
+    loadChildren: () => import('./edit-account/edit-account.module').then( m => m.EditAccountPageModule)
   }
 ];
 

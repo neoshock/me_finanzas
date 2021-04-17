@@ -14,28 +14,28 @@
 
 <ion-content>
   <ion-list>
-    <ion-card class="{{account.class_name}}" *ngFor="let account of accounts">
+    <ion-card class="{{account.account_data.class_name}}" *ngFor="let account of accounts" (click)="presentActionSheet(account)">
       <ion-card-header>
-        <ion-icon name="{{account.icon_image}}"></ion-icon>
-        <h3>{{account.name_account}}</h3>
+        <ion-icon name="{{account.account_data.icon_image}}"></ion-icon>
+        <h3>{{account.account_data.name_account}}</h3>
         <ion-label>18/02/2020</ion-label>
       </ion-card-header>
       <ion-card-content>
         <ion-list>
           <ion-item>
-            <ion-text>Titular de la cuenta</ion-text> <p>&nbsp; {{account.propietary_name}}</p>
+            <ion-text>Titular de la cuenta</ion-text> <p>&nbsp; {{account.account_data.propietary_name}}</p>
           </ion-item>
-          <ion-item *ngIf="account.account_number != null">
-            <ion-text *ngIf="account.type_account == 'credit_card'">Numero de tarjeta</ion-text>
-            <ion-text *ngIf="account.type_account == 'bank_account'">Numero de cuenta</ion-text> <p>&nbsp; {{account.account_number}}</p>
+          <ion-item *ngIf="account.account_data.account_number != null">
+            <ion-text *ngIf="account.account_data.type_account == 'credit_card'">Numero de tarjeta</ion-text>
+            <ion-text *ngIf="account.account_data.type_account == 'bank_account'">Numero de cuenta</ion-text> <p>&nbsp; {{account.account_data.account_number}}</p>
           </ion-item>
           <ion-item>
-            <ion-text>Saldo estimado</ion-text> <p style="color: rgb(0, 255, 76); margin-left: 15px;">${{account.account_balance}}</p>
+            <ion-text>Saldo estimado</ion-text> <p style="color: rgb(0, 255, 76); margin-left: 15px;">${{account.account_data.account_balance}}</p>
           </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
-    <ion-label class="label-info" *ngIf="accounts == undefined">
+    <ion-label class="label-info" *ngIf="this.accounts == null">
       <p>
         Aquí podrás agregar las cuentas que manejas, comienza agregando una presionando el incono que está en la parte superior derecha de la pantalla. 
       </p>

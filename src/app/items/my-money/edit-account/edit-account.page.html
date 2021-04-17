@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" [routerLink]="['/my-money']">
+      <ion-button><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Editar informacion de cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" *ngIf="account.account_data.type_account == 'bank_account'">
+        <ion-card>
+          <ion-card-header>
+            <h3>Editar cuenta de banco</h3>
+          </ion-card-header>
+          <ion-card-content>
+            <form class="add_bank" [formGroup]="bank_account" (ngSubmit)="editBankAccount()">
+              <ion-label>Nombre de banco</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el nombre de banco" formControlName="bank_name"></ion-input>
+              </ion-item>
+              <ion-label>Titular de la cuenta</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el nombre del propietario" formControlName="propietary_name"></ion-input>
+              </ion-item>
+              <ion-label>Numero de cuenta</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el numero de cuenta" formControlName="account_number" type="number"></ion-input>
+              </ion-item>
+              <ion-label>Monto inicial</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el monto inicial" 
+                formControlName="started_balance" type="number"></ion-input>
+              </ion-item>
+              <div class="button">
+                <ion-button type='submit'>
+                  Guardar cambios
+                </ion-button>
+              </div>
+              <p style="margin: 40px auto; text-align: center;">
+                <strong style="color: rgb(224, 180, 33);">atencion!</strong> Al editar la imformacion de la cuenta, los cambios se veran reflejado en su saldo total
+              </p>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" *ngIf="account.account_data.type_account == 'cash_efective'">
+        <ion-card>
+          <ion-card-header>
+            <h3>Editar dinero en efectivo</h3>
+          </ion-card-header>
+          <ion-card-content>
+            <form class="add_bank" [formGroup]="efective_account" (ngSubmit)="editCashAccount()">
+              <ion-label>Nombre de la cuenta</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el nombre del propietario" formControlName="account_name"></ion-input>
+              </ion-item>
+              <ion-label>Propietario</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba su nombre" formControlName="propietary_name"></ion-input>
+              </ion-item>
+              <ion-label>Monto inicial</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el monto inicial" type="number" formControlName="started_balance"></ion-input>
+              </ion-item>
+              <div class="button">
+                <ion-button type="submit">
+                  Guardar cambios
+                </ion-button>
+              </div>
+              <p style="margin: 40px auto; text-align: center;">
+                <strong style="color: rgb(224, 180, 33);">atencion!</strong> Al editar la imformacion de la cuenta, los cambios se veran reflejado en su saldo total
+              </p>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" *ngIf="account.account_data.type_account == 'credit_card'">
+        <ion-card>
+          <ion-card-header>
+            <h3>Editar tarjeta de credito</h3>
+          </ion-card-header>
+          <ion-card-content>
+            <form class="add_bank" [formGroup]="card_account" (ngSubmit)="editCardAccount()">
+              <ion-label>Nombre de la cuenta</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el nombre de la tarjeta" formControlName="card_name"></ion-input>
+              </ion-item>
+              <ion-label>Titular de la tarjeta</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el titular de la tarjeta" formControlName="propietary_name"></ion-input>
+              </ion-item>
+              <ion-label>Numero de tarjeta</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el numero de la tarjeta" type="number" formControlName="card_number"></ion-input>
+              </ion-item>
+              <ion-label>Monto inicial</ion-label>
+              <ion-item>
+                <ion-input placeholder="Escriba el monto inicial" type="number" formControlName="started_balance"></ion-input>
+              </ion-item>
+              <div class="button">
+                <ion-button type="submit">
+                  Guardar cambios
+                </ion-button>
+              </div>
+              <p style="margin: 40px auto; text-align: center;">
+                <strong style="color: rgb(224, 180, 33);">atencion!</strong> Al editar la imformacion de la cuenta, los cambios se veran reflejado en su saldo total
+              </p>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

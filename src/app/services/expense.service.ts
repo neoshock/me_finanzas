@@ -38,6 +38,36 @@ export class ExpenseService {
     }
   }
 
+  public async editDataExpense(data, expense_id, photo){
+    const userUID = (await this.user_service.getCurrentUser()).uid;
+    if (userUID != null){
+      if(photo != null){
+        var file_name = new Date().getTime() + '.jpeg';
+        await this.storage.storage.ref().child(`files/${userUID}/expenses/${file_name}`).put(photo);
+        var fileLink = await this.storage.storage.ref().child(`files/${userUID}/expenses/${file_name}`).getDownloadURL().then((url)=>{
+          return url;
+        }).catch((error)=>{
+          console.log(error);
+        });
+        data.expense_file = fileLink;
+      }else{
+        const result = await this.firestore.collection(`users/${userUID}/expenses`).doc(expense_id);
+        result.update(data);
+      }
+      if (data.expense_status){
+        this.account_service.updateAccountAmount(-data.expense_ammount,data.expense_accountDestine,userUID);
+      }
+    } 
+  }
+
+  public async deleteExpense(expense_id){
+    const userUID = (await this.user_service.getCurrentUser()).uid;
+    if(userUID != null){
+      var item = this.firestore.collection(`users/${userUID}/expenses`).doc(expense_id);
+      item.delete();
+    }
+  }
+
   public async uploadPhotoToService(photo: any, expense){
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID) {

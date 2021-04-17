@@ -56,23 +56,23 @@ export class AppComponent {
   private async loadUserDates(){
     const user = await this.user_service.getCurrentUser();
     if(user != null){
-      this.router.navigate(['/home']);
+      //this.router.navigate(['/home']);
       if(user.emailVerified){
         this.onUseVerify = true;
         this.the_user.user_name = user.displayName;
         this.the_user.user_picture = user.photoURL;
         this.the_user.user_balance = await this.accounts.getTotalBalance();
         this.the_user.user_balance = parseFloat(this.the_user.user_balance).toFixed(2);
-
+        await this.loadNavBar();
       }else{
-        this.the_user.user_name = "Nescesitamos que verifique su cuenta";
+        this.the_user.user_name = "Nescesitamos que verifique su correo";
       }
     }else{
       this.router.navigate(['/started']);
     }
   }
 
-  ngAfterViewInit(){
+  async loadNavBar(){
     var menu_items = document.getElementById("menu_items");
     if (menu_items != null){
       var items = menu_items.children;

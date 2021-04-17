@@ -20,6 +20,9 @@ const routes: Routes = [
       },{
         path: "add-account/:desc",
         loadChildren: () => import('./items/my-money/add-account/add-account.module').then(m => m.AddAccountPageModule)
+      },{
+        path: "edit-account/:id-account",
+        loadChildren: () => import('./items/my-money/edit-account/edit-account.module').then(m => m.EditAccountPageModule)
       }
     ]
   },

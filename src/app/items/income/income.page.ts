@@ -52,7 +52,8 @@ export class IncomePage implements OnInit {
 
   async presentModal() {
     const modal = await this.modalController.create({
-      component: AddIncomePage
+      component: AddIncomePage,
+      componentProps: {'data_income':'empty'}
     });
     return await modal.present();
   }

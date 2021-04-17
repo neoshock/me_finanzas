@@ -101,6 +101,14 @@ export class AccountsService {
     }
   }
 
+  public async updateAccount(account){
+    const userUID = (await this.user_service.getCurrentUser()).uid;
+    if (userUID != null){
+      const result = await this.firestore.collection(`users/${userUID}/accounts`).doc(account.account_id);
+      result.update(account.account_data);
+    }
+  }
+
   public async getAccountsActives(){
     const userUID = (await this.user_service.getCurrentUser()).uid;
     var items = null;
@@ -131,11 +139,19 @@ export class AccountsService {
     return result;
   }
 
+  public async deleteAccount(account_id){
+    const userUID = (await this.user_service.getCurrentUser()).uid;
+    if (userUID != null){
+      const result = await this.firestore.collection(`users/${userUID}/accounts`).doc(account_id);
+      result.delete();
+    }
+  }
+
   public async getTotalBalance(){
     var totalBalance = 0;
     var result = await this.getAccountsDisconect();
     result.forEach((element)=>{
-      totalBalance += element.account_balance;
+      totalBalance += element.account_data.account_balance;
     });
     return totalBalance;
   }
@@ -162,6 +178,18 @@ export class AccountsService {
     }
   }
 
+  async getAccount(account_id){
+    const userUID = (await this.user_service.getCurrentUser()).uid;
+    if(userUID != null){
+      const account_number = this.firestore.collection(`users/${userUID}/accounts/`).doc(account_id);
+      var result = account_number.get().toPromise();
+      var account = {account_id: (await result).id, account_data: (await result).data()}
+      return account;
+    }else{
+      return null;
+    }
+  }
+
   public async getAccountsDisconect(){
     const userUID = (await this.user_service.getCurrentUser()).uid;
     var items = null;
@@ -170,8 +198,10 @@ export class AccountsService {
       items = (await this.firestore.collection(`users/${userUID}/accounts`).get().toPromise()).docs;
       if (items != null){
         items.forEach(element => {
-          elements.push(element.data());
+          elements.push({account_id:element.id,account_data: element.data()});
         });
+      }else{
+        elements = null;
       }
     }
     return elements;

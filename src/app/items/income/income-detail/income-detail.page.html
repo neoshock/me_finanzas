@@ -50,7 +50,8 @@
       </ion-col>
       <ion-col size="12">
         <ion-button *ngIf="!income_objet.income_status" color="success" expand="full" (click)="incomeSuccess()">Cobrar ingreso</ion-button> 
-        <!-- <ion-button color="primary" expand="full">Editar imformacion de ingreso</ion-button>   -->
+        <ion-button *ngIf="!income_objet.income_status" color="primary" expand="full" (click)="presentModal()">Editar imformacion de ingreso</ion-button>
+        <ion-button color="danger" expand="full" (click)="deleteIncome()">Eliminar ingreso</ion-button>    
       </ion-col>
     </ion-row>
   </ion-grid>

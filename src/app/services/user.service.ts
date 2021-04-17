@@ -73,6 +73,8 @@ export class UserService {
   async logOut_user(){
     this.fire_auth.setPersistence('local').then(()=>{
       this.fire_auth.signOut;
+      indexedDB.deleteDatabase("firebaseLocalStorageDb");
+      window.location.reload();
     }).catch((error)=>{
       console.log(error);
     });
@@ -84,7 +86,6 @@ export class UserService {
     var on_state = null;
     const result = await this.fire_auth.signInWithEmailAndPassword(email,password).then((userCredential)=>{
       on_state = userCredential;
-      this.enablePersistance(email, password)
     }).catch((error)=>{
       on_state = error.code;
     });

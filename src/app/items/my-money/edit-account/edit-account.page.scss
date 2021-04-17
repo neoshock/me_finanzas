@@ -1,0 +1,33 @@
+.add_bank {
+    margin: 0px; 
+    padding: 0px; 
+    display: contents;
+    ion-label {
+        font-size: 15px;
+        font-weight: 300;
+        color: #000;
+    }
+
+    ion-item {
+        margin-bottom: 24px;
+        border-radius: 3px;
+
+        ion-input {
+            font-weight: 300;
+            font-size: 15px;
+        }
+    }
+    .button {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+ion-card-header {
+    h3{
+        font-size: 21px;
+        font-weight: bold;
+        color: #000;
+        text-align: center;
+    }
+}

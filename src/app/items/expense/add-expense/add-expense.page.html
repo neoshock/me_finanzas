@@ -2,10 +2,13 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" class="income-header">
-        <div class="title">
+        <div class="title" *ngIf="data_expense == 'empty'">
           <ion-title>Nuevo egreso</ion-title>
         </div>
-        <div class="sub-title">
+        <div class="title" *ngIf="data_expense != 'empty'">
+          <ion-title>Editar egreso</ion-title>
+        </div>
+        <div class="sub-title" *ngIf="data_expense == 'empty'">
           <ion-text>
             Aqui puede registrar cualquier pasivo que haya recibido
           </ion-text>
@@ -60,9 +63,14 @@
             </div>
           </div>
 
-          <div class="input-button">
+          <div class="input-button" *ngIf="data_expense == 'empty'">
             <ion-button shape="round" type="submit">Guardar Egreso</ion-button>
             <ion-button color="danger" shape="round" (click)="dismiss()">Cancelar Egreso</ion-button>
+          </div>
+
+          <div class="input-button" *ngIf="data_expense != 'empty'">
+            <ion-button shape="round" type="submit">Guardar Cambios</ion-button>
+            <ion-button color="danger" shape="round" (click)="dismiss()">Cancelar</ion-button>
           </div>
         </form>
       </ion-col>
