@@ -1,34 +1,57 @@
-form {
-    display: contents;
+.login-form {
+    width: 100%;
+    margin: 15px 0px;
+    padding: 21px;
+
+    .inputs {
+        display: flex;
+        margin: 21px auto;
+        flex-direction: row;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+        ion-icon {
+            font-size: 27px;
+            color: #aaa;
+        }
+
+        ion-input {
+            font-size: 18px;
+            margin-left: 6px;
+        }
+    }
+
+    .btn-submit {
+        height: 45px;
+        margin-top: 45px;
+        font-size: 21px;
+    }
 }
 
-.started-bg-one {
-    position: relative;
-    z-index: 1;
-    top: -100px;
-    left: -40px;
-    width: 600px;
-    height: 200px;
-    background: rgb(230, 178, 225);
-    transform: rotate(-15deg);
+.options-buttons {
+    width: 100%;
+    margin-top: 60px;
+    .register-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        ion-button {
+            width: 36%;
+            padding: 3px;
+        }
+        .active {
+            color: #ddd;
+        }
+    }
 }
 
-.started-bg-two {
-    position: absolute;
-    z-index: 0;
-    top: -60px;
-    width: 600px;
-    height: 200px;
-    background: rgb(102, 61, 98);
-    transform: rotate(15deg);
-}
-
-.img-avatar {
-    position: relative;
-    top: -60px;
-    margin: 0px auto;
-    img {
-        box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
-        border-radius: 50%;
+.forgot {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    .info-forgot {
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        font-size: 21px;
     }
 }

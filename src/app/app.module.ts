@@ -15,6 +15,8 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 
 import { ReactiveFormsModule} from '@angular/forms';
 
+import {FingerprintAIO} from '@ionic-native/fingerprint-aio/ngx';
+
 const firebaseConfig = {
   apiKey: "AIzaSyCPwxWLADJf205RWAD4D32G5MgVJM2QEyM",
   authDomain: "inlaid-lane-281023.firebaseapp.com",
@@ -29,7 +31,7 @@ const firebaseConfig = {
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AngularFireModule.initializeApp(firebaseConfig), AngularFireDatabaseModule, AngularFireAuthModule, ReactiveFormsModule,AngularFireStorageModule, AngularFirestoreModule.enablePersistence()],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {
@@ -67,6 +68,14 @@ const routes: Routes = [
         loadChildren: () => import('./started/user-update/user-update.module').then(m => m.UserUpdatePageModule)
       }
     ]
+  },
+  {
+    path: 'config',
+    loadChildren: () => import('./options/config/config.module').then( m => m.ConfigPageModule)
+  },
+  {
+    path: 'finger-print',
+    loadChildren: () => import('./finger-print/finger-print.module').then( m => m.FingerPrintPageModule)
   }
 ];
 

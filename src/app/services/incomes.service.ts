@@ -118,14 +118,15 @@ export class IncomesService {
   }
 
   public async getIncomes(){
-    var incomes: any = [];
+    var incomes = [];
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID != null){
-      const result = await this.firestore.collection(`users/${userUID}/incomes`,ref => ref.orderBy('income_dateReceive','desc')).get().subscribe((data)=>{
-        data.forEach((element)=>{
+      const result = (await this.firestore.collection(`users/${userUID}/incomes`,ref => ref.orderBy('income_dateReceive','desc')).get().toPromise()).docs;
+      if(result != null){
+        result.forEach(element =>{
           incomes.push({income_id: element.id, income_data: element.data()});
         });
-      });
+      }
     }
     return incomes;
   }

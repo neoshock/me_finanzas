@@ -1,22 +1,90 @@
-.register_title {
-    position: relative;
-    padding: 0px;
-    margin: 0px;
-    font-size: 24px;
+.register-bg {
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(90deg, #c797d3 0%, #c670db 100%);
+    border-radius: 0px 10px 10px 50%;
 }
 
-.register_text {
-    font-size: 15px;
-    color: #ccc;
-    text-align: center;
+.options-buttons {
+    position: relative;
+    width: 100%;
+    bottom: 240px;
+
+    .register-links {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        ion-button {
+            width: 36%;
+            padding: 6px;
+        }
+        .active {
+            color: #ddd;
+        }
+    }
 }
 
-.register_form {
-    position: relative;
-    top: 90px;
+.register-form {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    top: 150px;
+    left: 0px;
+    .inputs {
+        width: 90%;
+        margin: 0px auto;
+        border-radius: 30px;
+        border: 1px solid #ccc;
+        background: #fff;
+        padding: 18px;
+        box-shadow: 0px 1px 10px rgba($color: #000000, $alpha: .1);
+        .input {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            margin: 18px 0px;
+
+            ion-icon {
+                font-size: 24px;
+                color: #777;
+                margin-right: 6px;
+            }
+
+            ion-input {
+                font-size: 18px;
+            }   
+        }
+
+        .input-check {
+            border-bottom: none;
+            margin: 21px 0px;
+            ion-label {
+                margin-left: 6px;
+                font-size: 15px;
+            }
+        }
+    }
+
+    .buttons {
+        width: 90%;
+        margin: 0px auto;
+        ion-button {
+            width: 100%;
+            height: 45px;
+            font-size: 21px;
+        }
+    }
 }
 
 .text-info {
     position: relative;
-    top: 90px;
+    top: 240px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px;
+
+    ion-text {
+        font-size: 15px;
+        color: #aaa;
+    }
 }

@@ -16,7 +16,7 @@
           <ion-item><ion-label>Fecha estimada de cobro:</ion-label>{{income_objet.income_dateReceive}}</ion-item>
           <ion-item><ion-label>Monto estimado:</ion-label>${{income_objet.income_ammount}}</ion-item>
           <ion-item><ion-label>Cuenta destino:</ion-label>
-            <p *ngIf="income_objet.income_accountDestine != null">{{income_objet.income_accountDestine}}</p>
+            <p *ngIf="income_objet.income_accountDestine != null && income_objet.income_accountDestine != 0">{{income_objet.income_accountDestine}}</p>
             <p *ngIf="income_objet.income_accountDestine == null">Dinero en efectivo</p>
           </ion-item>
           <ion-item><ion-label>Estado de cobro:</ion-label> 

@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list class="color-swift">
     <ion-card class="{{account.account_data.class_name}}" *ngFor="let account of accounts" (click)="presentActionSheet(account)">
       <ion-card-header>
         <ion-icon name="{{account.account_data.icon_image}}"></ion-icon>

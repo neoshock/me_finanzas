@@ -1,0 +1,62 @@
+.biometric-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    ion-title {
+        position: relative;
+        width: 100%;
+        top: 0px;
+        margin: 21px 0px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    ion-text {
+        position: relative;
+        font-size: 18px;
+        text-align: center;
+    }
+}
+
+.biometric-finger {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .finger-image {
+        margin: 120px auto;
+        padding: 15px;
+        border-radius: 50%;
+        border: 9px solid rgba(185, 83, 201, 0.5);
+        box-shadow: 0px 10px 30px rgba($color: #cb76ce, $alpha: .5);
+    }
+
+    ion-icon {
+        font-size: 90px;
+        border-radius: 50%;
+        padding: 15px;
+        border: 9px solid rgba(228, 52, 255, 0.5);
+    }
+}
+
+.item-forgot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .info-forgot {
+        margin: 0px auto;
+        font-size: 18px;    
+    }
+}
+
+.password-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 21px 0px;
+    ion-button {
+        font-size: 21px;
+        height: 45px;
+    }
+}

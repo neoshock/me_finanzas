@@ -82,7 +82,7 @@ export class MyMoneyPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Comfirmar',
-      message: 'Una vez realizado los cambios no se podra recuperar la cuenta',
+      message: 'Una vez realizado los cambios no se podrá recuperar la cuenta',
       buttons: [
         {
           text: 'Cancelar',

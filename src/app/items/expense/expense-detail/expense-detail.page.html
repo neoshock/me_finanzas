@@ -15,8 +15,9 @@
           <ion-item><ion-label>Fecha estimada de pago:</ion-label>{{expense_object.expense_dateReceive}}</ion-item>
           <ion-item><ion-label>Monto estimado:</ion-label>${{expense_object.expense_ammount}}</ion-item>
           <ion-item><ion-label>Cuenta origen:</ion-label>
-            <p *ngIf="expense_object.expense_accountDestine != null">{{expense_object.expense_accountDestine}}</p>
+            <p *ngIf="expense_object.expense_accountDestine != null && expense_object.expense_accountDestine != 0">{{expense_object.expense_accountDestine}}</p>
             <p *ngIf="expense_object.expense_accountDestine == null">Dinero en efectivo</p>
+            <p *ngIf="expense_object.expense_accountDestine == 0">Cuenta eliminada</p>
           </ion-item>
           <ion-item><ion-label>Estado de cobro:</ion-label> 
             <strong *ngIf="!expense_object.expense_status" style="color: rgb(255, 198, 52);">Pendiente</strong> 

@@ -10,16 +10,23 @@
             <p>Saldo total: <strong style="color: aquamarine;">${{the_user.user_balance}}</strong></p>
           </ion-label>
         </div>
-        <ion-list id="menu_items" class="menu-items" lines="none" *ngIf="onUseVerify">
-          <ion-item [routerLink]="[page.url]" (click)="onToggleItem(page)" *ngFor="let page of appPages">
-            <ion-icon name="{{page.icon}}"></ion-icon> {{page.title}}
-          </ion-item>
-          <ion-item *ngIf="!onUseVerify" [routerLink]="['/started/user-update']">
-            <ion-icon name="alert-circle-outline"></ion-icon> Verificar Cuenta
-          </ion-item>
-          <ion-item [routerLink]="['/started']" (click)="logOut()">
-            <ion-icon name="return-down-back-outline"></ion-icon> Cerrar sesion
-          </ion-item>
+        <ion-list class="menu-items color-swift" *ngIf="onUseVerify">
+          <ion-menu-toggle auto-hide="false" *ngFor="let item of appPages; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[item.url]" lines="none" detail="false" routerLinkActive="active">
+              <ion-icon slot="start" [ios]="item.icon" [md]="item.icon"></ion-icon>
+              <ion-label>{{item.title}}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle>
+            <ion-item *ngIf="!onUseVerify" routerDirection="root" [routerLink]="['/started/user-update']" lines="none" detail="false" routerLinkActive="active">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              <ion-label>Verificar cuenta</ion-label>
+            </ion-item>
+            <ion-item routerDirection="root" (click)="logOut()" [routerLink]="['/started']" lines="none" detail="false" routerLinkActive="active">
+              <ion-icon name="log-out-outline"></ion-icon>
+              <ion-label>Salir</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
         </ion-list>
       </ion-content>
     </ion-menu>

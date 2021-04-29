@@ -1,11 +1,10 @@
 .income_item {
     ion-card {
-        background: #fff;
         transition: all 0.25s;
     }
 
     ion-card:active {
-        background: rgb(132, 255, 228);
+        background: rgb(230, 132, 255);
     }
 }
 

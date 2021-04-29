@@ -74,10 +74,10 @@ export class EditAccountPage implements OnInit {
       if (result != null){
         this.presentLoading();
       }else{
-        this.presentAlert("Hubo un error al ingresar los datos intentelo mas tarde");
+        this.presentAlert("Hubo un error al ingresar los datos Inténtelo más tarde");
       }
     }else{
-      this.presentAlert("Uno o mas campos son requeridos");
+      this.presentAlert("Uno o más campos son requeridos");
     }
   }
 
@@ -92,7 +92,7 @@ export class EditAccountPage implements OnInit {
       if (result != null){
         this.presentLoading();
       }else{
-        this.presentAlert("Hubo un error al ingresar los datos intentelo mas tarde");
+        this.presentAlert("Hubo un error al ingresar los datos Inténtelo más tarde");
       }
     }else{
       this.presentAlert("Uno o mas campos son requeridos");
@@ -110,7 +110,7 @@ export class EditAccountPage implements OnInit {
       if (result != null){
         this.presentLoading();
       }else{
-        this.presentAlert("Hubo un error al ingresar los datos intentelo mas tarde");
+        this.presentAlert("Hubo un error al ingresar los datos Inténtelo más tarde");
       }
     }else{
       this.presentAlert("Uno o mas campos son requeridos");

@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Configuracion de la cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="profile-header"></div>
+  <div class="profile-photo">
+    <img src="{{this.user.photoURL}}" alt="">
+  </div>
+  <div class="profile-content">
+    <ion-list class="color-swift">
+      <div class="profile-item">
+        <h3>Nombre de usuario</h3>
+        <ion-text color="dark-text">{{this.user.displayName}}</ion-text>
+      </div>
+      <div class="profile-item">
+        <h3>Correo Electronico</h3>
+        <ion-text color="dark-text">{{this.user.email}}</ion-text>
+      </div>
+    </ion-list>
+    <div class="profile-button">
+      <ion-button expand="block" (click)="presentModal()">Editar imformacion de usuario</ion-button>
+      <ion-button color="secondary" expand="block" (click)="changePassword()">Cambiar contraseña</ion-button>
+    </div>
+  </div>
+  <div class="profile-dark">
+    <ion-label><ion-icon name="moon-sharp"></ion-icon> Modo Oscuro</ion-label>
+    <ion-toggle color="dark" checked="{{toggleCheck}}" (ionChange)="enabledDarkMode($event)"></ion-toggle>
+  </div>
+  <div class="profile-fingerprint">
+    <ion-label><ion-icon name="finger-print-outline"></ion-icon>Inicio con huella dactilar</ion-label>
+    <ion-toggle color="dark" checked="{{fingerCheck}}" (ionChange)="enabledFingerPrint($event)"></ion-toggle>
+  </div>
+</ion-content>

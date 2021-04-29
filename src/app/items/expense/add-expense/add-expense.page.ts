@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AccountsService} from '../../../services/accounts.service';
 import {ExpenseService} from '../../../services/expense.service';
-import {AlertController} from '@ionic/angular';
+import {AlertController, LoadingController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {PhotoService} from '../../../services/photo.service';
 
@@ -19,7 +19,7 @@ export class AddExpensePage implements OnInit {
   @Input() expense_id: any;
   @Input() account_id: any;
 
-  constructor(private modalCtrl: ModalController,private account_service: AccountsService, private expense_service: ExpenseService, private alert: AlertController, private router: Router, public photo_service: PhotoService) { }
+  constructor(private modalCtrl: ModalController,private account_service: AccountsService, private expense_service: ExpenseService, private alert: AlertController, private router: Router, public photo_service: PhotoService, private loading: LoadingController) { }
 
   public accountItems;
 
@@ -31,7 +31,7 @@ export class AddExpensePage implements OnInit {
     expense_name: new FormControl(''),
     expense_description: new FormControl(''),
     expense_ammount: new FormControl(),
-    expense_dateReceive: new FormControl('04-11-2021'),
+    expense_dateReceive: new FormControl(this.formatoFecha(this.dateNow, "mm-dd-yy")),
     expense_accountDestine: new FormControl('default'),
     expense_status: new FormControl(false),
     expense_file: new FormControl(null)
@@ -40,6 +40,7 @@ export class AddExpensePage implements OnInit {
   ngOnInit() {
     if (this.data_expense != 'empty'){
       this.loadDatesOfExpense(this.data_expense);
+      console.log('pasa esto');
     }else{
       this.fillAnyInputs();
     }
@@ -53,6 +54,10 @@ export class AddExpensePage implements OnInit {
     var date = data.expense_dateReceive.split('/');
     if(data.expense_file != null){
       this.photo_service.photos = [{filepath:'empty', webviewPath:data.expense_file}];
+    }
+    var account = await this.account_service.getAccountNumber(this.account_id);
+    if (account == 0){
+      this.account_id = 'default';
     }
     await this.fillAnyInputs();
     this.new_expense = new FormGroup({
@@ -72,26 +77,37 @@ export class AddExpensePage implements OnInit {
       if (this.data_expense == 'empty'){
         if(this.file_evidence != null){
           this.expense_service.addNewExpenseToDataBase(this.new_expense.value,this.file_evidence[0]);
-          this.presentAlertSuccess();
+          this.presentLoading();
         }else{
           if (this.photo_service.file_blop != null){
             this.expense_service.uploadPhotoToService(this.photo_service.file_blop,this.new_expense.value);
           }else{
             this.expense_service.addNewExpenseToDataBase(this.new_expense.value,this.file_evidence);
           }
-          this.presentAlertSuccess();
+          this.presentLoading();
         }
       }
     }else{
-      this.presentAlert("Uno o mas campos son requeridos");
+      this.presentAlert("Uno o más campos son requeridos");
     }
+  }
+
+  async presentLoading() {
+    const loading = await this.loading.create({
+      cssClass: 'my-custom-class',
+      message: 'Espere un momento....',
+    });
+    await loading.present();
+    setTimeout(()=>{
+      this.presentAlertSuccess();
+      loading.dismiss();
+    }, 1000);
   }
 
   saveChangesForExpense(data){
     if (this.data_expense != 'empty'){
       this.expense_service.editDataExpense(data,this.expense_id,this.photo_service.file_blop);
-      this.status_expense = 'success';
-      this.presentAlertSuccess();
+      this.presentLoading();
     }
   }
 
@@ -122,11 +138,12 @@ export class AddExpensePage implements OnInit {
   async presentAlertSuccess() {
     const alert = await this.alert.create({
       cssClass: 'my-custom-class',
-      header: 'Atencion',
+      header: '¡Atención!',
       subHeader: 'Registro exitoso',
       buttons: [{
         text:"Continuar",
         handler: ()=>{
+          this.status_expense = 'success';
           this.dismiss();
         }
       }]
@@ -138,7 +155,7 @@ export class AddExpensePage implements OnInit {
   async presentAlert(message) {
     const alert = await this.alert.create({
       cssClass: 'my-custom-class',
-      header: 'Atencion',
+      header: '¡Atención!',
       subHeader: 'Error de ingreso',
       message: message,
       buttons: ['OK']

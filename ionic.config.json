@@ -1,7 +1,8 @@
 {
-  "name": "Neoshock Finanzas",
+  "name": "Mis Finanzas",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

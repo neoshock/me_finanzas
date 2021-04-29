@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {UserService} from './services/user.service';
 import {AccountsService} from './services/accounts.service';
 import {NavigationEnd, Router} from '@angular/router';
+import {ModalController} from '@ionic/angular';
+import {FingerPrintPage} from './finger-print/finger-print.page';
 import { User } from './models/user';
 
 
@@ -18,8 +20,11 @@ export class AppComponent {
     { title: 'Inicio', url: '/home', icon: 'home-outline' },
     { title: 'Mis cuentas', url: '/my-money', icon: 'wallet-outline' },
     { title: 'Ingresos', url: '/income', icon: 'arrow-up-outline' },
-    { title: 'Egresos', url: '/expense', icon: 'arrow-down-outline' }
+    { title: 'Egresos', url: '/expense', icon: 'arrow-down-outline' },
+    { title: 'Configuracion', url: '/config', icon: 'settings-outline' }
   ];
+
+  private fingerPrint: boolean = false;
 
   the_user: any = {
     user_name: "No existe usuario",
@@ -27,16 +32,34 @@ export class AppComponent {
     user_balance: 0
   }
 
-  constructor(private user_service: UserService, private router: Router, private accounts: AccountsService) {
+  constructor(private user_service: UserService, private router: Router, private accounts: AccountsService, private modal: ModalController) {
     this.router.events.subscribe((ev)=>{
       if (ev instanceof NavigationEnd){
         this.updateUserDates();
       }
     });
+    this.loadUserDates();
+    this.enableFingerPrint();
+    this.enableDarkTheme();
   }
 
   ngOnInit(){
-    this.loadUserDates();
+
+  }
+
+  enableDarkTheme(){
+    var toggle = (localStorage.getItem('dark-mode') === 'true');
+    toggleDarkTheme(toggle);
+    function toggleDarkTheme(shouldAdd) {
+      document.body.classList.toggle('dark', shouldAdd);
+    }
+  }
+
+  enableFingerPrint(){
+    this.fingerPrint = (localStorage.getItem('finger-mode') === 'true');
+    if(this.fingerPrint){
+      this.presentModal();
+    }
   }
 
   public onUseVerify: boolean = false;
@@ -63,7 +86,6 @@ export class AppComponent {
         this.the_user.user_picture = user.photoURL;
         this.the_user.user_balance = await this.accounts.getTotalBalance();
         this.the_user.user_balance = parseFloat(this.the_user.user_balance).toFixed(2);
-        await this.loadNavBar();
       }else{
         this.the_user.user_name = "Nescesitamos que verifique su correo";
       }
@@ -80,26 +102,17 @@ export class AppComponent {
     }
   }
 
+  async presentModal() {
+      const modal = await this.modal.create({
+        component: FingerPrintPage,
+        backdropDismiss: false,
+        componentProps: {'modal_status':true}
+      });
+      return await modal.present();
+  }
+
   public logOut(){
     this.user_service.logOut_user();
   }
 
-  public onToggleItem(event){
-    let indice = 0;
-    var menu_items = document.getElementById("menu_items");
-    var items = menu_items.children;
-
-    for (let i =0; i< this.appPages.length; i++){
-      if(this.appPages[i].title == event.title){
-        indice = i;
-        break;
-      }else{
-        indice = 0;
-      }
-    }
-    for (let i = 0; i< this.appPages.length; i++){
-      items[i].classList.remove("active");
-    }
-    items[indice].classList.toggle("active");
-  }
 }

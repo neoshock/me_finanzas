@@ -41,13 +41,13 @@ export class RegisterPage implements OnInit {
           if (register != null){
             this.router.navigate(['/started/user-update']);
           }else{
-            this.presentAlert("Hubo un error al crear el usuario, intentelo mas tarde");
+            this.presentAlert("Hubo un error al crear el usuario, Inténtelo más tarde");
           }
         }else{
-          this.presentAlert("Acepte los terminos y condiciones");
+          this.presentAlert("Acepte los términos y condiciones");
         }
       }else{
-        this.presentAlert("Las contrasenas no coinciden");
+        this.presentAlert("Las contraseñas no coinciden");
       }
     }else{
       this.presentAlert("Por favor llene los campos requeridos");

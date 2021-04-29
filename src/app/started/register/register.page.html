@@ -1,45 +1,41 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start" [routerLink]="['/started/']">
-      <ion-button><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
-    </ion-buttons>
-    <ion-title>Registro</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="register-bg"></div>
   <ion-grid>
     <ion-row>
-      <ion-col size="9" style="margin: 15px auto;">
-        <ion-title class="register_title">Crear una cuenta</ion-title>
-        <p class="register_text">
-          Crea una cuenta gratuita, llenando los siguientes campos
-        </p>
+      <ion-col size="12" class="options-buttons">
+        <div class="register-links">
+          <ion-button shape="round" class="active" [routerLink]="['/started/login']">Ingresar</ion-button>
+          <ion-button shape="round" color="secondary">Registrarse</ion-button>
+        </div>
       </ion-col>
-      <ion-col size="12" class="register_form">
+      <ion-col size="12" class="register-form">
         <form [formGroup]="user_register" (ngSubmit)="registerNewUser()">
-          <ion-item>
-            <ion-icon name="mail-outline" slot="start"></ion-icon>
-            <ion-input placeholder="Correo" name="email" type="email" formControlName="email"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="key-outline" slot="start"></ion-icon>
-            <ion-input placeholder="Contraseña" name="password" type="password" formControlName="password"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="key-outline" slot="start"></ion-icon>
-            <ion-input placeholder="Comfirmar contraseña" name="password_repeat" type="password" formControlName="password_repeat"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-checkbox color="primary" formControlName="accept_terms"></ion-checkbox>
-            <ion-label style="font-size: 15px; margin-left: 6px;">Acepto los terminos y condiciones de uso</ion-label>
-          </ion-item>
-          <ion-button type="submit" expand="block" shape="round" type="submit" color="secondary" style="margin: 30px 0px;">Registrarse</ion-button>
+          <div class="inputs">
+            <div class="input input-text">
+              <ion-icon name="mail-outline" slot="start"></ion-icon>
+              <ion-input placeholder="Correo" name="email" type="email" formControlName="email"></ion-input>
+            </div>
+            <div class="input input-text">
+              <ion-icon name="key-outline" slot="start"></ion-icon>
+              <ion-input placeholder="Contraseña" name="password" type="password" formControlName="password"></ion-input>
+            </div>
+            <div class="input input-text">
+              <ion-icon name="key-outline" slot="start"></ion-icon>
+              <ion-input placeholder="Comfirmar contraseña" name="password_repeat" type="password" formControlName="password_repeat"></ion-input>
+            </div>
+            <div class="input input-check">
+              <ion-checkbox color="primary" formControlName="accept_terms"></ion-checkbox>
+              <ion-label>Acepto los términos y condiciones de uso</ion-label>
+            </div>
+          </div>
+          <div class="buttons">
+            <ion-button shape="round" type="submit" color="secondary" style="margin: 30px 0px;">Registrarse</ion-button>
+          </div>
         </form>
       </ion-col>
       <ion-col class="text-info">
         <ion-text>
-          <strong style="color: rgb(235, 145, 29);">Atencion! </strong>Es nescesario tener una conexion a internet estable para proceder con el registro
+          <strong style="color: rgb(235, 145, 29);">Atención! </strong>Es nescesario tener una conexion a internet estable para proceder con el registro
         </ion-text>
       </ion-col>
     </ion-row>

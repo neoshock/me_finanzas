@@ -10,7 +10,7 @@ interface ExpenseData {
   expense_description?: string;
   expense_ammount?: number;
   expense_dateReceive?: string;
-  expense_accountDestine?: number;
+  expense_accountDestine?: any;
   expense_status?:boolean;
   expense_file?: string;
 }
@@ -49,16 +49,19 @@ export class ExpenseDetailPage implements OnInit {
   }
 
   public async getActualExpenseDetail(){
-    var result = await this.expense_service.getExpense(this.expense_id);
+    var result: ExpenseData = await this.expense_service.getExpense(this.expense_id);
+    this.account_id = result.expense_accountDestine;
+    result.expense_accountDestine = "Cargando...";
     this.expense_object = result;
-    this.account_id = this.expense_object.expense_accountDestine;
-    this.expense_object.expense_accountDestine = await this.account_service.getAccountNumber(this.expense_object.expense_accountDestine);
+    this.expense_object.expense_accountDestine = await this.account_service.getAccountNumber(this.account_id);
   }
 
   expenseSuccess(){
-    if(this.expense_id != null){
+    if(this.expense_id != null && this.expense_object.expense_accountDestine != 0){
       this.expense_service.updateState(this.expense_id,this.account_id,this.expense_object.expense_ammount);
       this.presentLoading();
+    }else{
+      this.presentAlertError('Hubo un erro, cuenta no existente');
     }
   }
 
@@ -77,7 +80,7 @@ export class ExpenseDetailPage implements OnInit {
   async presentAlertSuccess() {
     const alert = await this.alert_ctrl.create({
       cssClass: 'my-custom-class',
-      header: 'Atencion',
+      header: 'Atención',
       subHeader: 'Cambios realizados exitosamente',
       buttons: [{
         text:"Continuar",
@@ -96,8 +99,8 @@ export class ExpenseDetailPage implements OnInit {
   async presentAlert() {
     const alert = await this.alert_ctrl.create({
       cssClass: 'my-custom-class',
-      header: 'Atencion',
-      subHeader: 'Una vez eliminado el egreso, no se podra recuperar, los cambios realizados no afectaran directamente a las cuentas',
+      header: 'Atención',
+      subHeader: 'Una vez eliminado el egreso no se podrá recuperar, los cambios realizados no afectaran directamente a las cuentas',
       buttons: [
       {
         text: "Cancelar"
@@ -109,6 +112,21 @@ export class ExpenseDetailPage implements OnInit {
           this.router.navigate(['/expense']);
         }
       }
+      ]
+    });
+    alert.present();
+  }
+
+  async presentAlertError(message) {
+    const alert = await this.alert_ctrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Atención',
+      subHeader: message,
+      buttons: [
+        {
+          text:"Continuar",
+          role: 'cancel'
+        }
       ]
     });
     alert.present();

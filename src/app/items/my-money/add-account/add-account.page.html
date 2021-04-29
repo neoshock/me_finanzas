@@ -19,19 +19,19 @@
           </ion-card-header>
           <ion-card-content>
             <form class="add_bank" [formGroup]="bank_account" (ngSubmit)="registerBankAccount()">
-              <ion-label>Nombre de banco</ion-label>
+              <ion-label color="dark-text">Nombre de banco</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el nombre de banco" formControlName="bank_name"></ion-input>
               </ion-item>
-              <ion-label>Titular de la cuenta</ion-label>
+              <ion-label color="dark-text">Titular de la cuenta</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el nombre del propietario" formControlName="propietary_name"></ion-input>
               </ion-item>
-              <ion-label>Numero de cuenta</ion-label>
+              <ion-label color="dark-text">Numero de cuenta</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el numero de cuenta" formControlName="account_number" type="number"></ion-input>
               </ion-item>
-              <ion-label>Monto inicial</ion-label>
+              <ion-label color="dark-text">Monto inicial</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el monto inicial" 
                 formControlName="started_balance" type="number"></ion-input>
@@ -52,15 +52,15 @@
           </ion-card-header>
           <ion-card-content>
             <form class="add_bank" [formGroup]="efective_account" (ngSubmit)="registerEfectiveAccount()">
-              <ion-label>Nombre de la cuenta</ion-label>
+              <ion-label color="dark-text">Nombre de la cuenta</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el nombre del propietario" formControlName="account_name"></ion-input>
               </ion-item>
-              <ion-label>Propietario</ion-label>
+              <ion-label color="dark-text">Propietario</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba su nombre" formControlName="propietary_name"></ion-input>
               </ion-item>
-              <ion-label>Monto inicial</ion-label>
+              <ion-label color="dark-text">Monto inicial</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el monto inicial" type="number" formControlName="started_balance"></ion-input>
               </ion-item>
@@ -83,19 +83,19 @@
           </ion-card-header>
           <ion-card-content>
             <form class="add_bank" [formGroup]="card_account" (ngSubmit)="registerCardAccount()">
-              <ion-label>Nombre de la cuenta</ion-label>
+              <ion-label color="dark-text">Nombre de la cuenta</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el nombre de la tarjeta" formControlName="card_name"></ion-input>
               </ion-item>
-              <ion-label>Titular de la tarjeta</ion-label>
+              <ion-label color="dark-text">Titular de la tarjeta</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el titular de la tarjeta" formControlName="propietary_name"></ion-input>
               </ion-item>
-              <ion-label>Numero de tarjeta</ion-label>
+              <ion-label color="dark-text">Numero de tarjeta</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el numero de la tarjeta" type="number" formControlName="card_number"></ion-input>
               </ion-item>
-              <ion-label>Monto inicial</ion-label>
+              <ion-label color="dark-text">Monto inicial</ion-label>
               <ion-item>
                 <ion-input placeholder="Escriba el monto inicial" type="number" formControlName="started_balance"></ion-input>
               </ion-item>

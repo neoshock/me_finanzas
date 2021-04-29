@@ -30,23 +30,36 @@ export class ExpensePage implements OnInit {
   constructor(private modalController: ModalController, private expense_services: ExpenseService, private router: Router) { }
 
   ngOnInit() {
+    //this.loadExpenses();
+  }
+
+  ionViewDidEnter(){
     this.loadExpenses();
   }
 
   async presentModal() {
     const modal = await this.modalController.create({
-      component: AddExpensePage
+      component: AddExpensePage,
+      componentProps: {'data_expense': 'empty'}
     });
-    return await modal.present();
+    await modal.present();
+    const data = await modal.onDidDismiss();
+    if (data.data.status == 'success'){
+      this.loadExpenses();
+    }
   }
 
   async loadExpenses(){
-    this.expenses = await this.expense_services.getExpenses();
+    var result = await this.expense_services.getExpenses();
+    if(result.length > 0){
+      this.expenses = result;
+    }else{
+      this.expenses = null;
+    }
   }
 
   doRefresh(event) {
     console.log('Begin async operation');
-
     setTimeout(() => {
       this.loadExpenses();
       event.target.complete();

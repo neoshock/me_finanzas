@@ -7,6 +7,7 @@ import {AccountsService} from '../services/accounts.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ExpenseService {
 
   constructor(private user_service: UserService,private firestore: AngularFirestore,private storage: AngularFireStorage, private account_service: AccountsService) { }
@@ -84,7 +85,9 @@ export class ExpenseService {
         }).catch((error)=>{
           
         });
-
+        if (expense.expense_status){
+          this.account_service.updateAccountAmount(-expense.expense_ammount,expense.expense_accountDestine,userUID);
+        }
       }
     } 
   }
@@ -114,14 +117,15 @@ export class ExpenseService {
   }
 
   public async getExpenses(){
-    var expenses: any = [];
+    var expenses = [];
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID != null){
-      const result = await this.firestore.collection(`users/${userUID}/expenses`,ref => ref.orderBy('expense_dateReceive','desc')).get().subscribe((data)=>{
-        data.forEach((element)=>{
+      const result = (await this.firestore.collection(`users/${userUID}/expenses`,ref => ref.orderBy('expense_dateReceive','desc')).get().toPromise()).docs;
+      if(result != null){
+        result.forEach(element => {
           expenses.push({expense_id: element.id, expense_data: element.data()});
         });
-      });
+      }
     }
     return expenses;
   }

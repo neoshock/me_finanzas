@@ -10,7 +10,7 @@ interface IncomeData {
   income_description?: string;
   income_ammount?: number;
   income_dateReceive?: string;
-  income_accountDestine?: number;
+  income_accountDestine?: any;
   income_status?:boolean;
   income_file?: string;
 }
@@ -50,10 +50,11 @@ export class IncomeDetailPage implements OnInit {
   }
 
   public async getActualIncomeDetail(){
-    var result = await this.income_service.getIncome(this.income_id);
+    var result: IncomeData = await this.income_service.getIncome(this.income_id);
+    this.account_id = result.income_accountDestine;
+    result.income_accountDestine = "Cargando...";
     this.income_objet = result;
-    this.account_id = this.income_objet.income_accountDestine;
-    this.income_objet.income_accountDestine = await this.account_service.getAccountNumber(this.income_objet.income_accountDestine);
+    this.income_objet.income_accountDestine = await this.account_service.getAccountNumber(this.account_id);
   }
 
   deleteIncome(){
@@ -95,8 +96,8 @@ export class IncomeDetailPage implements OnInit {
   async presentAlert() {
     const alert = await this.alert_ctrl.create({
       cssClass: 'my-custom-class',
-      header: 'Atencion',
-      subHeader: 'Una vez eliminado el ingreso, no se podra recuperar, los cambios realizados no afectaran directamente a las cuentas',
+      header: 'Atención!',
+      subHeader: 'Una vez eliminado el egreso no se podrá recuperar, los cambios realizados no afectaran directamente a las cuentas',
       buttons: [
       {
         text: "Cancelar"
@@ -116,7 +117,7 @@ export class IncomeDetailPage implements OnInit {
   async presentAlertSuccess() {
     const alert = await this.alert_ctrl.create({
       cssClass: 'my-custom-class',
-      header: 'Atencion',
+      header: 'Atención!',
       subHeader: 'Cambios realizados exitosamente',
       buttons: [{
         text:"Continuar"

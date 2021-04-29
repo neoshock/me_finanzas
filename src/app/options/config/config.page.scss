@@ -1,0 +1,103 @@
+.profile-header {
+    position: relative;
+    bottom: 240px;
+    right: 24px;
+    width: 600px;
+    height: 500px;
+    background: linear-gradient(90deg, #c797d3 0%, #b339d1 100%);
+    box-shadow: 0px 1px 10px rgba($color: #000000, $alpha: .5);
+    border-radius: 10px 10px 10px 50%;
+    transform: rotate(-45deg);
+}
+
+.profile-photo {
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    display: flex;
+    justify-content: center;
+
+    img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 7px solid #b339d1;
+        box-shadow: 0px 1px 10px rgba($color: #000000, $alpha: .25);
+    }
+}
+
+.profile-content {
+    position: relative;
+    bottom: 180px;
+    margin: 0px auto;
+    width: 95%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 9px 12px;
+    box-shadow: 0px 1px 10px rgba($color: #000000, $alpha: .1);
+
+    .profile-item {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 15px 0px;
+
+        h3 {
+            font-weight: bold;
+        }
+
+        ion-text {
+            font-size: 15px;
+            font-weight: 400;
+            margin-left: 6px;
+        }
+    }
+    .profile-button {
+        margin: 24px 0px;
+        ion-button {
+            margin: 12px 0px;
+        }
+    }
+    
+}
+
+
+.profile-dark {
+    position: absolute;
+    top: 720px;
+    left: 9px;
+    width: 95%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    margin: 0px auto;
+    padding: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    ion-label {
+        font-size: 21px;
+        margin: 0px 6px;
+    }
+}
+
+.profile-fingerprint {
+    position: absolute;
+    top: 790px;
+    left: 9px;
+    width: 95%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    margin: 0px auto;
+    padding: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    ion-label {
+        font-size: 21px;
+        margin: 0px 6px;
+
+        ion-icon {
+            margin-right: 6px;
+        }
+    }
+}

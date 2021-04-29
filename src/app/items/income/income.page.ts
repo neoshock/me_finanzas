@@ -25,12 +25,12 @@ interface Income {
 })
 export class IncomePage implements OnInit {
 
-  public incomes: Array<Income> = [];
+  public incomes: Income[];
 
   constructor(private modalController: ModalController, private income_service: IncomesService, private router: Router) { }
 
   ngOnInit() {
-    this.loadIncomes();
+    //this.loadIncomes();
   }
 
   doRefresh(event) {
@@ -43,11 +43,16 @@ export class IncomePage implements OnInit {
   }
 
   ionViewDidEnter(){
-    
+    this.loadIncomes();
   }
 
   async loadIncomes(){
-    this.incomes = await this.income_service.getIncomes();
+    var result = await this.income_service.getIncomes();
+    if(result.length > 0){
+      this.incomes = result;
+    }else{
+      this.incomes = null;
+    }
   }
 
   async presentModal() {
@@ -55,7 +60,11 @@ export class IncomePage implements OnInit {
       component: AddIncomePage,
       componentProps: {'data_income':'empty'}
     });
-    return await modal.present();
+    await modal.present();
+    const data = await modal.onDidDismiss();
+    if (data.data.status == 'success'){
+      this.loadIncomes();
+    }
   }
 
   showDeatail(id) {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {AngularFirestore} from '@angular/fire/firestore';
+import { first } from 'rxjs/operators';
 import {UserService} from './user.service';
 
 interface Account {
@@ -13,22 +14,17 @@ interface Account {
   type_account?: string;
 }
 
+interface Data {
+  data?: any; 
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AccountsService {
 
-  constructor(private user_service: UserService,private fire_database: AngularFireDatabase, private firestore: AngularFirestore) { }
-
-  public async uploadNewAccount(account, type){
-    var add_acount = null;
-    const userUID = (await this.user_service.getCurrentUser()).uid;
-    if (userUID != null){
-      const accountResult = this.accountFormater(account,type);
-      add_acount = await this.fire_database.database.ref(`users/${userUID}/accounts/`).push(accountResult);
-      console.log('account added');
-    }
-    return add_acount;
+  constructor(private user_service: UserService,private fire_database: AngularFireDatabase, private firestore: AngularFirestore) {
+    
   }
 
   private accountFormater(account, type):any{
@@ -67,34 +63,13 @@ export class AccountsService {
     return account;
   }
 
-  public async getAccounts() {
-    var dataAccounts = null;
-    const userUID = (await this.user_service.getCurrentUser()).uid;
-    if (userUID != null){
-      const getAccountsFromDatabase = await this.fire_database.database.ref(`users/${userUID}/accounts`).get().then((data)=>{
-        if(data.exists()){
-          return data.val();
-        }
-      }).catch((error)=>{
-        console.log(error);
-      });
-      dataAccounts = getAccountsFromDatabase;
-      if (dataAccounts != null){
-        dataAccounts = Object.entries(dataAccounts).map(e => Object.assign(e[1], { key: e[0] }));
-      }
-      return dataAccounts;
-    }else{
-      return dataAccounts;
-    }
-  }
-
   //Firestore para persistencia de datos
 
   public async addNewAccountDisconect(account,type){
     const userUID = (await this.user_service.getCurrentUser()).uid;
-    const accountResult = this.accountFormater(account,type);
+    const accountResult = this.user_service.encrypt(JSON.stringify(this.accountFormater(account,type)).toString());
     if(userUID != null){
-       await this.firestore.collection(`users/${userUID}/accounts`).add(accountResult).then((docRef) =>{
+       await this.firestore.collection(`users/${userUID}/accounts`).add({data:accountResult}).then((docRef) =>{
       }).catch((error)=>{
         console.log(error);
       });
@@ -105,23 +80,20 @@ export class AccountsService {
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if (userUID != null){
       const result = await this.firestore.collection(`users/${userUID}/accounts`).doc(account.account_id);
-      result.update(account.account_data);
+      var data = {data: this.user_service.encrypt(JSON.stringify(account.account_data).toString())} 
+      result.update(data);
     }
   }
 
-  public async getAccountsActives(){
-    const userUID = (await this.user_service.getCurrentUser()).uid;
-    var items = null;
-    var result = [];
-    if (userUID != null){
-      items = (await this.firestore.collection(`users/${userUID}/accounts`, ref => ref.where("type_account","!=","credit_card")).get().toPromise()).docs;
-      if (items != null){
-        items.forEach(element => {
-          result.push({id: element.id,data:element.data()});
-        });
+  async getAccountNumbers(){
+    var accountItems = [];
+    var result = await this.getAllAccountsActives();
+    for(let item of result){
+      if(item.data.type_account != 'credit_card'){
+        accountItems.push(item);
       }
     }
-    return result;
+    return accountItems;
   }
 
   public async getAllAccountsActives(){
@@ -132,7 +104,11 @@ export class AccountsService {
       items = (await this.firestore.collection(`users/${userUID}/accounts`).get().toPromise()).docs;
       if (items != null){
         items.forEach(element => {
-          result.push({id: element.id,data:element.data()});
+          if(element.data().data){
+            result.push({id: element.id,data:JSON.parse(this.user_service.decrypt(element.data().data))});
+          }else{
+            result.push({id: element.id, data: element.data()});
+          }
         });
       }
     }
@@ -160,8 +136,16 @@ export class AccountsService {
     const account = await this.firestore.collection(`users/${userUid}/accounts/`).doc(accountId);
     account.get().subscribe((doc)=>{
       if(doc.exists){
-        var myElement: Account = doc.data();
-        account.update({account_balance:amount + myElement.account_balance});
+        var myElement: Data = doc.data();
+        if(myElement.data){
+          var accountDecrypt: Account = JSON.parse(this.user_service.decrypt(myElement.data));
+          accountDecrypt.account_balance += amount;
+          var accountEncrypt = this.user_service.encrypt(JSON.stringify(accountDecrypt).toString());
+          account.update({data:accountEncrypt});
+        }else{
+          var totalBalance = accountDecrypt.account_balance += amount;
+          account.update({account_balance: totalBalance});
+        }
       }
     });
   }
@@ -170,21 +154,34 @@ export class AccountsService {
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID != null){
       const account_number = this.firestore.collection(`users/${userUID}/accounts/`).doc(account_id);
-      var result = account_number.get().toPromise();
-      var number: Account = (await result).data();
-      return number.account_number;
+      var result: Data = (await account_number.get().toPromise()).data();
+      if (result == null){
+        return 0;
+      }else{
+        var account: Account = null;
+        if(result.data){
+          account = JSON.parse(this.user_service.decrypt(result.data));
+        }else{
+          account = (await account_number.get().toPromise()).data();
+        }
+        return account.account_number;
+      }
     }else{
-      return 0;
+      return null;
     }
   }
 
-  async getAccount(account_id){
+  public async getAccount(account_id){
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID != null){
-      const account_number = this.firestore.collection(`users/${userUID}/accounts/`).doc(account_id);
-      var result = account_number.get().toPromise();
-      var account = {account_id: (await result).id, account_data: (await result).data()}
-      return account;
+      const accountResult = this.firestore.collection(`users/${userUID}/accounts/`).doc(account_id);
+      var result = await accountResult.get().pipe(first()).toPromise();
+      var dataEncrypt: Data = result.data();
+      if(dataEncrypt.data){
+        return {account_id: result.id, account_data: JSON.parse(this.user_service.decrypt(dataEncrypt.data))};
+      }else{
+        return {account_id: result.id, account_data: result.data()};
+      }
     }else{
       return null;
     }
@@ -198,7 +195,11 @@ export class AccountsService {
       items = (await this.firestore.collection(`users/${userUID}/accounts`).get().toPromise()).docs;
       if (items != null){
         items.forEach(element => {
-          elements.push({account_id:element.id,account_data: element.data()});
+          if(element.data().data){
+            elements.push({account_id: element.id, account_data: JSON.parse(this.user_service.decrypt(element.data().data))});
+          }else{
+            elements.push({account_id:element.id,account_data: element.data()});
+          }
         });
       }else{
         elements = null;
