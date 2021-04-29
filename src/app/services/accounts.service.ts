@@ -24,8 +24,9 @@ interface Data {
 export class AccountsService {
 
   constructor(private user_service: UserService,private fire_database: AngularFireDatabase, private firestore: AngularFirestore) {
-    
+
   }
+
 
   private accountFormater(account, type):any{
     var account;
@@ -143,7 +144,8 @@ export class AccountsService {
           var accountEncrypt = this.user_service.encrypt(JSON.stringify(accountDecrypt).toString());
           account.update({data:accountEncrypt});
         }else{
-          var totalBalance = accountDecrypt.account_balance += amount;
+          var accountNormal: Account = doc.data();
+          var totalBalance = accountNormal.account_balance + amount;
           account.update({account_balance: totalBalance});
         }
       }

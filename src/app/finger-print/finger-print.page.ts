@@ -16,9 +16,7 @@ export class FingerPrintPage implements OnInit {
 
 
   ngOnInit() {
-    if(this.modal_status){
-      this.showDataBiometrics();
-    }
+    
   }
 
   showDataBiometrics(){

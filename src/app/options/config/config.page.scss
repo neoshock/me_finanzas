@@ -76,6 +76,13 @@
     ion-label {
         font-size: 21px;
         margin: 0px 6px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        ion-icon {
+            margin-right: 6px;
+            font-size: 24px;
+        }
     }
 }
 
@@ -93,11 +100,14 @@
     justify-content: space-between;
 
     ion-label {
-        font-size: 21px;
+        font-size: 18px;
         margin: 0px 6px;
-
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         ion-icon {
             margin-right: 6px;
+            font-size: 24px;
         }
     }
 }
