@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+    <ion-buttons slot="start" [routerLink]="['/tabnav/movements']">
+      <ion-button>
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Mis Egresos</ion-title>
   </ion-toolbar>
@@ -11,23 +13,16 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-grid>
-    <ion-row>
-      <ion-col class="income_item" size="12" *ngFor="let item of expenses">
-        <ion-card class="income_content" (click)="showDeatail(item.expense_id)">
-          <ion-card-header>
-            <ion-card-title>{{item.expense_data.expense_name}}</ion-card-title>
-            <ion-text>{{item.expense_data.expense_dateReceive}}</ion-text>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-label>Estado
-              <strong *ngIf="!item.expense_data.expense_status" class="pending">Pendiente</strong>
-              <strong *ngIf="item.expense_data.expense_status" class="success">Pagado</strong>
-            </ion-label>
-            <ion-label>Monto <strong>${{item.expense_data.expense_ammount}}</strong></ion-label>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+    <ion-list class="income-list">
+      <ion-item button *ngFor="let item of expenses" (click)="showDeatail(item.expense_id)">
+        <ion-label>
+          <h2>{{item.expense_data.expense_name}}</h2>
+          <p>{{item.expense_data.expense_dateReceive}}</p>
+        </ion-label>
+        <ion-note *ngIf="!item.expense_data.expense_status" slot="end" color="warning" style="font-size: 15px;">${{item.expense_data.expense_ammount}}</ion-note>
+        <ion-note *ngIf="item.expense_data.expense_status" slot="end" color="danger" style="font-size: 15px;">${{item.expense_data.expense_ammount}}</ion-note>
+      </ion-item>
+    </ion-list>
   </ion-grid>
   <ion-label class="label-info" *ngIf="expenses == null">
     <p>

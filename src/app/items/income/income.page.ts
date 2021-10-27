@@ -9,7 +9,7 @@ interface Income {
   income_data: {
     income_name?: string;
     income_description?: string;
-    income_ammount?: number;
+    income_ammount?: any;
     income_dateReceive?: string;
     income_accountDestine?: string;
     income_status?:boolean;
@@ -30,7 +30,7 @@ export class IncomePage implements OnInit {
   constructor(private modalController: ModalController, private income_service: IncomesService, private router: Router) { }
 
   ngOnInit() {
-    //this.loadIncomes();
+
   }
 
   doRefresh(event) {
@@ -46,10 +46,12 @@ export class IncomePage implements OnInit {
     this.loadIncomes();
   }
 
+
   async loadIncomes(){
     var result = await this.income_service.getIncomes();
     if(result.length > 0){
       this.incomes = result;
+      this.incomes.map(value => value.income_data.income_ammount = parseFloat(value.income_data.income_ammount).toFixed(2));
     }else{
       this.incomes = null;
     }

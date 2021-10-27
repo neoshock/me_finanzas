@@ -15,7 +15,8 @@ export class ConfigPage implements OnInit {
   public user: User = {
     displayName: "Cargando...",
     email: "Cargando...",
-    photoURL: "assets/default-img/user.png"
+    photoURL: "assets/default-img/user.png",
+    verify: false
   };
 
   toggleCheck = (localStorage.getItem('dark-mode') === 'true');
@@ -34,6 +35,7 @@ export class ConfigPage implements OnInit {
     this.user.displayName =  result.displayName;
     this.user.email =  result.email;
     this.user.photoURL = result.photoURL;
+    this.user.verify = result.emailVerified;
   }
 
   async presentModal() {
@@ -104,6 +106,24 @@ export class ConfigPage implements OnInit {
     await alert.present();
   }
 
+  async presentAlertForEmail(email) {
+    const alert = await this.alert.create({
+      cssClass: 'my-custom-class',
+      header: 'Atencion',
+      subHeader: `Le hemos enviado un correo de verificación: ${email}, una vez verificada su cuenta cierre y vuelva a iniciar sesión`,
+      buttons: [{
+        text:"Continuar",
+        role: 'cancel'
+      }]
+    });
+
+    await alert.present();
+  }
+
+  sendEmail(){
+    this.user_service.sendEnamilForverification().then((result)=>{this.presentAlertForEmail(this.user.email)}).catch((error)=>{this.presentAlert('Ha ocurrido un error inténtelo más tarde')});
+  }
+
   async updatePassword(){
     const alert = await this.alert.create({
       cssClass: 'my-custom-class',
@@ -172,10 +192,15 @@ export class ConfigPage implements OnInit {
     await alert.present();
   }
 
+  public logOut(){
+    this.user_service.logOut_user();
+  }
+
 }
 
 interface User {
   displayName: string;
   email: string;
   photoURL: string;
+  verify: boolean;
 }

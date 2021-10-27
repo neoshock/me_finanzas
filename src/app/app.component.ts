@@ -4,7 +4,6 @@ import {AccountsService} from './services/accounts.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {FingerPrintPage} from './finger-print/finger-print.page';
-import { User } from './models/user';
 
 
 
@@ -65,7 +64,6 @@ export class AppComponent {
   public onUseVerify: boolean = false;
 
   private async updateUserDates(){
-    if(this.onUseVerify){
       const user = await this.user_service.getCurrentUser();
       if(user != null){
         this.the_user.user_name = user.displayName;
@@ -73,22 +71,17 @@ export class AppComponent {
         this.the_user.user_balance = await this.accounts.getTotalBalance();
         this.the_user.user_balance = parseFloat(this.the_user.user_balance).toFixed(2);
       }
-    }
   }
 
   private async loadUserDates(){
     const user = await this.user_service.getCurrentUser();
     if(user != null){
-      this.router.navigate(['/home']);
-      if(user.emailVerified){
-        this.onUseVerify = true;
-        this.the_user.user_name = user.displayName;
-        this.the_user.user_picture = user.photoURL;
-        this.the_user.user_balance = await this.accounts.getTotalBalance();
-        this.the_user.user_balance = parseFloat(this.the_user.user_balance).toFixed(2);
-      }else{
-        this.the_user.user_name = "Nescesitamos que verifique su correo";
-      }
+      this.router.navigate(['/tabnav']);
+      this.onUseVerify = user.emailVerified;
+      this.the_user.user_name = user.displayName;
+      this.the_user.user_picture = user.photoURL;
+      this.the_user.user_balance = await this.accounts.getTotalBalance();
+      this.the_user.user_balance = parseFloat(this.the_user.user_balance).toFixed(2);
     }else{
       this.router.navigate(['/started']);
     }

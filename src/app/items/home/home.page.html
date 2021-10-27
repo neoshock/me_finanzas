@@ -1,45 +1,51 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Bienvenido</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  
-  <ion-grid>
-    <ion-row>
-      <!-- <ion-col size="4" class="logo">
-        <img class="img_logo" src="assets/default-img/NEO.png" alt="">
-      </ion-col> -->
-      <ion-col size="12">
-        <ion-text>
-          <h1 style="color: #be6bd3;">Mis Finanzas</h1>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-subtitle>LLeva el control de tus finanzas</ion-card-subtitle>
+  <div class="home-user">
+    <ion-item lines="none" color="none" class="home-header">
+      <ion-label style="font-weight: bold; color: #fff;">
+        <h1>Bievenido</h1>
+      </ion-label>
+      <ion-badge color="danger">{{pendings.length}}</ion-badge>
+      <ion-icon name="notifications" (click)="this.presentPopover($event)" slot="end" color="light"></ion-icon>
+    </ion-item>
+    <ion-card style="border-radius: 15px;">
+      <ion-card-header style="padding: 3% 1%;">
+        <ion-item lines="none" color="none">
+          <ion-avatar slot="start" style="width: 18%; height: 18%;">
+            <img src="{{this.user.user_photo}}">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{this.user.user_name}}</h2>
+            <p style="font-size: 18px;">${{this.user.user_amount}}</p>
+          </ion-label>
+        </ion-item>
       </ion-card-header>
       <ion-card-content>
-        <p>
-          Hola que tal, te saluda Neoshock, gracias por descargar mi aplicación espero que te sientas a gusto con la aplicación.
-          <p>
-            - Nota la aplicación no necesita de información detallada de tus cuentas bancarias y mucho menos tarjetas de crédito o débito, toda la información añadida a la aplicación como numero de cuentas, saldo bancario, correo y contraseñas no será proveída a terceros, use la aplicación bajo su responsabilidad.
-          <p>
-            - Si entraste a la versión Beta de esta aplicación déjame decirte que espero te pueda servir de ayuda, tal vez te encuentres con errores, espero puedas notificármelos, pronto se implementaran más funciones, gracias.
-          <p>
-            Dedicada a mi hermana ¡para que sepa en que anda gastando la plata!
-        </p>
+        <ion-chip color="success">
+          <ion-icon name="arrow-up-outline"></ion-icon>
+          <ion-label>${{user.user_incomes}}</ion-label>
+        </ion-chip>
+        <ion-chip color="danger">
+          <ion-icon name="arrow-down-outline"></ion-icon>
+          <ion-label>${{user.user_expenses}}</ion-label>
+        </ion-chip>
       </ion-card-content>
     </ion-card>
-    <ion-row>
-      <ion-col size="12">
-        <!-- <ion-button color="tertiary" expand="block">Mi cuenta</ion-button> -->
-      </ion-col>
-    </ion-row>
+  </div>
+  <ion-grid>
+    <ion-item lines="none">
+      <ion-label style="font-weight: bold;">Ultimos Movimientos</ion-label>
+      <a [routerLink]="['/tabnav/movements']" style="text-decoration: none;">Ver mas</a>
+    </ion-item>
+    <ion-list style="background: none; padding: 0px;">
+      <ion-card button *ngFor="let item of movements" (click)="showDeatail(item.income_id)">
+        <ion-item button lines="full">
+          <ion-label>
+            <h2>{{item.income_data.income_name}}</h2>
+            <p style="color: #ccc;">{{item.income_data.income_dateReceive}}</p>
+          </ion-label>
+          <ion-note  slot="end" color="success" style="font-size: 15px;">${{item.income_data.income_ammount}}</ion-note>
+        </ion-item>
+      </ion-card>
+    </ion-list>
   </ion-grid>
 </ion-content>

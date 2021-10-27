@@ -133,11 +133,12 @@ export class EditAccountPage implements OnInit {
     const alert = await this.alert_ctrl.create({
       cssClass: 'my-custom-class',
       header: 'Atencion',
+      backdropDismiss: false,
       subHeader: 'Registro exitoso',
       buttons: [{
         text:"Continuar",
         handler: ()=>{
-          this.router.navigate(['/my-money']);
+          this.router.navigate(['/tabnav/my-money']);
         }
       }]
     });

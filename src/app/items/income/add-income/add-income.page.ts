@@ -95,6 +95,9 @@ export class AddIncomePage implements OnInit {
 
   saveChangesForIncome(data){
     if (this.data_income != 'empty'){
+      if(this.photo_service.photos == null){
+        data.income_file = null;
+      }
       this.income_services.editDataIncome(data,this.income_id,this.photo_service.file_blop);
       this.presentLoading();
     }

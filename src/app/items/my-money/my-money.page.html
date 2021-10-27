@@ -1,8 +1,5 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="presentPopover($event)">
         <ion-icon name="add-outline"></ion-icon>
@@ -11,7 +8,6 @@
     <ion-title>Mis cuentas</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-list class="color-swift">
     <ion-card class="{{account.account_data.class_name}}" *ngFor="let account of accounts" (click)="presentActionSheet(account)">

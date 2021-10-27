@@ -1,0 +1,30 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2 style="text-align: center;">Mis Movimientos</h2>
+      </ion-col>
+      <ion-col size="12">
+        <ion-img src="../../assets/default-img/background-movements.jpg"></ion-img>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card>
+          <ion-item button lines="full" [routerLink]="['/income']">
+            <ion-label>
+              <h2>Ingresos</h2>
+            </ion-label>
+            <ion-badge color="success" slot="end">{{this.totalIncomes}}</ion-badge>
+          </ion-item>
+          <ion-item button lines="full" [routerLink]="['/expense']">
+            <ion-label>
+              <h2>Egresos</h2>
+            </ion-label>
+            <ion-badge color="danger" slot="end">{{this.totalExpenses}}</ion-badge>
+          </ion-item>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

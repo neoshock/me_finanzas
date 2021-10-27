@@ -5,6 +5,10 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {first, retry} from 'rxjs/operators';
 import * as CryptoJS  from 'crypto-js';
+import firebase from 'firebase/app';
+import {AlertController} from '@ionic/angular';
+import {Facebook, FacebookLoginResponse} from '@ionic-native/facebook/ngx';
+import {GooglePlus} from '@ionic-native/google-plus/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +19,7 @@ export class UserService {
   private secureKey: string;
   private secureIv: string;
 
-  constructor(private fire_bdd: AngularFireDatabase, private fire_auth: AngularFireAuth, private storage: AngularFireStorage) {
+  constructor(private fire_bdd: AngularFireDatabase, private fire_auth: AngularFireAuth, private storage: AngularFireStorage, private alert: AlertController, private facebook: Facebook, private google: GooglePlus) {
     this.generatekeys();
   }
 
@@ -58,8 +62,8 @@ export class UserService {
     const user = await this.fire_auth.currentUser;
 
     var storageRef = await this.storage.storage.ref().child(`files/${user.uid}/${fileImg.name}`).put(fileImg).then(()=>{
-      console.log("archivo creado");
     });
+
     var avatarRef = await this.storage.storage.ref().child(`files/${user.uid}/${fileImg.name}`).getDownloadURL().then((url)=>{
       return url;
     }).catch((error)=>{
@@ -74,13 +78,14 @@ export class UserService {
     }).catch((error)=>{
       console.log(error);
     });
-
-    user.sendEmailVerification().then(()=>{
-      console.log('enviado a direccion de correo');
-    }).catch((error)=>{
-      console.log(error);
-    });
+    this.sendEnamilForverification();
     return userData;
+  }
+
+  public async sendEnamilForverification(){
+    return (await this.fire_auth.currentUser).sendEmailVerification().then(()=>{
+
+    }).catch((error)=>{console.log(error)});
   }
 
   async updateUser(user,imgDefault, imgProfile){
@@ -168,6 +173,48 @@ export class UserService {
     }).catch((error)=>{
       console.log(error);
     })
+  }
+
+  singInWithFacebook(){
+    return this.facebook.login(['email','public_profile']).then((result:FacebookLoginResponse)=>{
+      const credential_facebook = firebase.auth.FacebookAuthProvider.credential(result.authResponse.accessToken);
+      return this.fire_auth.signInWithCredential(credential_facebook).then((result)=>{
+        return result;
+      }).catch((error)=>{
+        if(error.code === 'auth/account-exists-with-different-credential'){
+          var email = error.email;
+          this.showAlertMessage(email);
+        }
+      });
+    }).catch((error)=>{
+
+    });
+  }
+
+  singInWithGoogle(){
+    return this.google.login({}).then((result)=>{
+      const user_data = result;
+      const credential_google = firebase.auth.GoogleAuthProvider.credential(null,user_data.accessToken);
+      return this.fire_auth.signInWithCredential(credential_google).then(result =>{
+        return result;
+      }).catch(error =>{
+        if(error.code === 'auth/account-exists-with-different-credential'){
+          var email = error.email;
+          this.showAlertMessage(email); 
+        }
+      });
+    });
+  }
+
+  private async showAlertMessage(email){
+    const alert = await this.alert.create({
+      header: 'Atencion!',
+      message: `Hemos detectado que ${email} ya existe con una cuenta diferente`,
+      buttons: [
+        {text: 'Aceptar', role: 'cancel'}
+      ]
+    });
+    alert.present();
   }
 
   async login_user(user: any) {

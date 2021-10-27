@@ -5,7 +5,7 @@
         <h2 style="text-align: center;">Cambios en imformacion de la cuenta</h2>
       </ion-col>
       <ion-col size="12" *ngIf="status_user != 'update'">
-        <h2 style="text-align: center;">Nescesitamos verificar su cuenta</h2>
+        <h2 style="text-align: center;">Rellene los siguientes campos</h2>
       </ion-col>
       <ion-col size="12" *ngIf="status_user == 'update'">
         <p style="text-align: center; color: rgb(131, 131, 131);">Una vez realizado los cambios, no se podran revertir</p>
@@ -28,10 +28,10 @@
           <div class="input-text">
             <ion-input placeholder="Ingrese su apellido" formControlName="user_lastName"></ion-input>
           </div>
-          <ion-button expand="block" shape="round" style="margin: 30px auto;" type="submit" *ngIf="status_user != 'update'">Verificar cuenta</ion-button>
+          <ion-button expand="block" shape="round" style="margin: 30px auto;" type="submit" *ngIf="status_user != 'update'">Registrar cuenta</ion-button>
           <ion-button expand="block" shape="round" style="margin: 30px auto;" *ngIf="status_user == 'update'" (click)="updateUser()">Actualizar datos</ion-button>
         </form>
-        <ion-button shape="round" expand="block" color="danger" (click)="dismiss()">Cancelar</ion-button>
+        <ion-button shape="round" expand="block" color="danger" (click)="dismiss()" *ngIf="status_user == 'update'">Cancelar</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

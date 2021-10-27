@@ -1,16 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Configuracion de la cuenta</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <div class="profile-header"></div>
   <div class="profile-photo">
     <img src="{{this.user.photoURL}}" alt="">
+    <div class="user-check verify" *ngIf="this.user.verify">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+    </div>
+    <div class="user-check unverify" *ngIf="!this.user.verify">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+    </div>
   </div>
   <div class="profile-content">
     <ion-list class="color-swift">
@@ -26,6 +23,7 @@
     <div class="profile-button">
       <ion-button expand="block" (click)="presentModal()">Editar imformacion de usuario</ion-button>
       <ion-button color="secondary" expand="block" (click)="changePassword()">Cambiar contraseña</ion-button>
+      <ion-button color="secondary" expand="block" (click)="logOut()">Cerrar Sesion</ion-button>
     </div>
   </div>
   <div class="profile-dark">
@@ -35,5 +33,11 @@
   <div class="profile-fingerprint">
     <ion-label><ion-icon name="finger-print-outline"></ion-icon>Inicio con huella dactilar</ion-label>
     <ion-toggle color="tertiary" checked="{{fingerCheck}}" (ionChange)="enabledFingerPrint($event)"></ion-toggle>
+  </div>
+  <div class="send-email" *ngIf="!this.user.verify">
+    <h3>Atencion!</h3>
+    <p>Su correo electronico no ha sido verificado
+    <p>si no ha recibido algun email de verificacion</p>
+    <ion-button (click)="sendEmail()">Presione aqui</ion-button>
   </div>
 </ion-content>

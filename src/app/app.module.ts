@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -16,6 +16,8 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { ReactiveFormsModule} from '@angular/forms';
 
 import {FingerprintAIO} from '@ionic-native/fingerprint-aio/ngx';
+import { Facebook } from '@ionic-native/facebook/ngx';
+import {GooglePlus} from '@ionic-native/google-plus/ngx';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCPwxWLADJf205RWAD4D32G5MgVJM2QEyM",
@@ -31,7 +33,7 @@ const firebaseConfig = {
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AngularFireModule.initializeApp(firebaseConfig), AngularFireDatabaseModule, AngularFireAuthModule, ReactiveFormsModule,AngularFireStorageModule, AngularFirestoreModule.enablePersistence()],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO],
-  bootstrap: [AppComponent],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, FingerprintAIO, Facebook, GooglePlus],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

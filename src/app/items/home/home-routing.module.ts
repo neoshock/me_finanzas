@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage
+  },
+  {
+    path: 'home-notifications',
+    loadChildren: () => import('./home-notifications/home-notifications.module').then( m => m.HomeNotificationsPageModule)
   }
 ];
 

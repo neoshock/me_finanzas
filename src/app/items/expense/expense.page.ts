@@ -9,7 +9,7 @@ interface Expense {
   expense_data: {
     expense_name?: string;
     expense_description?: string;
-    expense_ammount?: number;
+    expense_ammount?: any;
     expense_dateReceive?: string;
     expense_accountDestine?: string;
     expense_status?:boolean;
@@ -30,7 +30,7 @@ export class ExpensePage implements OnInit {
   constructor(private modalController: ModalController, private expense_services: ExpenseService, private router: Router) { }
 
   ngOnInit() {
-    //this.loadExpenses();
+
   }
 
   ionViewDidEnter(){
@@ -53,6 +53,7 @@ export class ExpensePage implements OnInit {
     var result = await this.expense_services.getExpenses();
     if(result.length > 0){
       this.expenses = result;
+      this.expenses.map(value => value.expense_data.expense_ammount = parseFloat(value.expense_data.expense_ammount).toFixed(2));
     }else{
       this.expenses = null;
     }

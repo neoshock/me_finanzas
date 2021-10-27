@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+    <ion-buttons slot="start" [routerLink]="['/tabnav/movements']">
+      <ion-button>
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Mis ingresos</ion-title>
   </ion-toolbar>
@@ -11,23 +13,16 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-grid>
-    <ion-row>
-      <ion-col class="income_item" size="12" *ngFor="let item of incomes">
-        <ion-card class="income_content" (click)="showDeatail(item.income_id)">
-          <ion-card-header>
-            <ion-card-title>{{item.income_data.income_name}}</ion-card-title>
-            <ion-text>{{item.income_data.income_dateReceive}}</ion-text>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-label>Estado
-              <strong *ngIf="!item.income_data.income_status" class="pending">Pendiente</strong>
-              <strong *ngIf="item.income_data.income_status" class="success">Cobrado</strong>
-            </ion-label>
-            <ion-label>Monto <strong>${{item.income_data.income_ammount}}</strong></ion-label>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+    <ion-list class="income-list">
+      <ion-item button *ngFor="let item of incomes" (click)="showDeatail(item.income_id)">
+        <ion-label>
+          <h2>{{item.income_data.income_name}}</h2>
+          <p>{{item.income_data.income_dateReceive}}</p>
+        </ion-label>
+        <ion-note *ngIf="!item.income_data.income_status" slot="end" color="warning" style="font-size: 15px;">${{item.income_data.income_ammount}}</ion-note>
+        <ion-note *ngIf="item.income_data.income_status" slot="end" color="success" style="font-size: 15px;">${{item.income_data.income_ammount}}</ion-note>
+      </ion-item>
+    </ion-list>
   </ion-grid>
   <ion-label class="label-info" *ngIf="incomes == null">
     <p>

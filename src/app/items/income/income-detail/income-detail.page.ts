@@ -8,7 +8,7 @@ import {AddIncomePage} from '../add-income/add-income.page';
 interface IncomeData {
   income_name?: string;
   income_description?: string;
-  income_ammount?: number;
+  income_ammount?: any;
   income_dateReceive?: string;
   income_accountDestine?: any;
   income_status?:boolean;
@@ -55,6 +55,7 @@ export class IncomeDetailPage implements OnInit {
     result.income_accountDestine = "Cargando...";
     this.income_objet = result;
     this.income_objet.income_accountDestine = await this.account_service.getAccountNumber(this.account_id);
+    this.income_objet.income_ammount = parseFloat(this.income_objet.income_ammount).toFixed(2);
   }
 
   deleteIncome(){

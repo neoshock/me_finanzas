@@ -83,12 +83,13 @@ export class UserUpdatePage implements OnInit {
   async verifyUser(){
     if (this.update_currentUser.value.user_firstName != "" && this.update_currentUser.value.user_lastName != ""){
       if(this.avatar_img != null){
-        const result = await this.user_services.updateNewUserAndVerify(this.avatar_img[0],this.update_currentUser.value);
-        if(result != null){
-          this.presentLoading();
-        }else {
+        this.presentLoading();
+        this.user_services.updateNewUserAndVerify(this.avatar_img[0],this.update_currentUser.value).then((result)=>{
+          this.loading.dismiss();
+          this.presentAlertCongrats();
+        }).catch((error)=>{
           this.presentAlert("Hubo un error intentelo mas tarde");
-        }
+        });
       }else{
         this.presentAlert("es nescesario una foto de perfil");
       }
@@ -114,16 +115,13 @@ export class UserUpdatePage implements OnInit {
       cssClass: 'my-custom-class',
       message: 'Espere un momento....',
     });
-    await loading.present();
-    setTimeout(()=>{
-      loading.dismiss();
-      this.presentAlertCongrats();
-    }, 1000);
+    return await loading.present();
   }
 
   async presentAlertCongrats() {
     const alert = await this.alert_ctrl.create({
       cssClass: 'my-custom-class',
+      backdropDismiss: false,
       header: 'Atencion',
       subHeader: 'Le hemos enviado un email de verificacion, revise su correo',
       buttons: [{
@@ -164,10 +162,16 @@ export class UserUpdatePage implements OnInit {
 
   addImgUser(event){
     const reader = new FileReader();
-    this.avatar_img = event.target.files;
-    reader.readAsDataURL(this.avatar_img[0]);
-    reader.onload = () =>{
-      this.image_avatar = reader.result;
+    var extension = event.target.files[0].name.split('.');
+    var index = extension.length - 1;
+    if(extension[index] == "jpg" || extension[index] == "png" || extension[index] == "jpeg"){
+      this.avatar_img = event.target.files;
+      reader.readAsDataURL(this.avatar_img[0]);
+      reader.onload = () =>{
+        this.image_avatar = reader.result;
+      }
+    }else {
+      this.presentAlert('Archivo de imagen incorrecto');
     }
   }
 

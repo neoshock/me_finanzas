@@ -36,6 +36,7 @@ export class MyMoneyPage implements OnInit {
     var result = await this.account_service.getAccountsDisconect();
     if(result.length > 0){
       this.accounts = result;
+      this.accounts.map(value => value.account_data.account_balance = parseFloat(value.account_data.account_balance).toFixed(2));
     }else{
       this.accounts = null;
     }

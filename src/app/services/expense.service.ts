@@ -51,6 +51,8 @@ export class ExpenseService {
           console.log(error);
         });
         data.expense_file = fileLink;
+        const result = await this.firestore.collection(`users/${userUID}/expenses`).doc(expense_id);
+        result.update(data);
       }else{
         const result = await this.firestore.collection(`users/${userUID}/expenses`).doc(expense_id);
         result.update(data);
@@ -109,7 +111,7 @@ export class ExpenseService {
       var document = this.firestore.collection(`users/${userUID}/expenses`).doc(expense_id);
       var date = this.formatoFecha(new Date,`dd/mm/20yy`);
       document.update({expense_status: true,expense_dateReceive: date});
-      this.account_service.updateAccountAmount(-amount,account_id,userUID);
+      this.account_service.updateAccountAmount(-Number(amount),account_id,userUID);
       return true;
     }else{
       return false;
@@ -120,7 +122,7 @@ export class ExpenseService {
     var expenses = [];
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID != null){
-      const result = (await this.firestore.collection(`users/${userUID}/expenses`,ref => ref.orderBy('expense_dateReceive','desc')).get().toPromise()).docs;
+      const result = (await this.firestore.collection(`users/${userUID}/expenses`,ref => ref.orderBy('expense_status','asc')).get().toPromise()).docs;
       if(result != null){
         result.forEach(element => {
           expenses.push({expense_id: element.id, expense_data: element.data()});
@@ -128,6 +130,36 @@ export class ExpenseService {
       }
     }
     return expenses;
+  }
+
+  public async getExpensesPending(){
+    var expenses = [];
+    const userUID = (await this.user_service.getCurrentUser()).uid;
+    if(userUID != null){
+      const result = (await this.firestore.collection(`users/${userUID}/expenses`,ref => ref.where('expense_status','==',false)).get().toPromise()).docs;
+      if(result != null){
+        result.forEach(element => {
+          expenses.push({expense_id: element.id, expense_data: element.data()});
+        });
+      }
+    }
+    return expenses;
+  }
+
+  public async getTotalExpense(){
+    var expenses = [];
+    var total = 0;
+    const UID = (await this.user_service.getCurrentUser()).uid;
+    if(UID != null){
+      const result = (await this.firestore.collection(`users/${UID}/expenses`,ref => ref.where('expense_status','==',true)).get().toPromise()).docs;
+      if(result != null){
+        result.forEach(element => {
+          expenses.push(element.data());
+        });
+        expenses.forEach(e =>{total += parseFloat(e.expense_ammount)});
+      }
+    }
+    return total;
   }
 
   formatoFecha(fecha, formato) {

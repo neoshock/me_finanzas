@@ -106,6 +106,9 @@ export class AddExpensePage implements OnInit {
 
   saveChangesForExpense(data){
     if (this.data_expense != 'empty'){
+      if(this.photo_service.photos == null){
+        data.expense_file = null;
+      }
       this.expense_service.editDataExpense(data,this.expense_id,this.photo_service.file_blop);
       this.presentLoading();
     }

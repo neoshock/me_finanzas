@@ -51,11 +51,12 @@ export class IncomesService {
           console.log(error);
         });
         data.income_file = fileLink;
+        const result = await this.firestore.collection(`users/${userUID}/incomes`).doc(income_id);
+        result.update(data);
       }else{
         const result = await this.firestore.collection(`users/${userUID}/incomes`).doc(income_id);
         result.update(data);
       }
-
       if (data.income_status){
         this.account_service.updateAccountAmount(data.income_ammount,data.income_accountDestine,userUID);
       }
@@ -110,7 +111,7 @@ export class IncomesService {
       var document = this.firestore.collection(`users/${userUID}/incomes`).doc(income_id);
       var date = this.formatoFecha(new Date,`dd/mm/20yy`);
       document.update({income_status: true,income_dateReceive: date});
-      this.account_service.updateAccountAmount(amount,account_id,userUID);
+      this.account_service.updateAccountAmount(Number(amount),account_id,userUID);
       return true;
     }else{
       return false;
@@ -121,7 +122,7 @@ export class IncomesService {
     var incomes = [];
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID != null){
-      const result = (await this.firestore.collection(`users/${userUID}/incomes`,ref => ref.orderBy('income_dateReceive','desc')).get().toPromise()).docs;
+      const result = (await this.firestore.collection(`users/${userUID}/incomes`,ref => ref.orderBy('income_status','asc')).get().toPromise()).docs;
       if(result != null){
         result.forEach(element =>{
           incomes.push({income_id: element.id, income_data: element.data()});
@@ -129,6 +130,36 @@ export class IncomesService {
       }
     }
     return incomes;
+  }
+
+  public async getIncomesPendding(){
+    var incomes = [];
+    const userUID = (await this.user_service.getCurrentUser()).uid;
+    if(userUID != null){
+      const result = (await this.firestore.collection(`users/${userUID}/incomes`,ref => ref.where('income_status',"==",false)).get().toPromise()).docs;
+      if(result != null){
+        result.forEach(element =>{
+          incomes.push({income_id: element.id, income_data: element.data()});
+        });
+      }
+    }
+    return incomes;
+  }
+
+  public async getTotalIncomes(){
+    var incomes = [];
+    var total = 0;
+    const UID = (await this.user_service.getCurrentUser()).uid;
+    if(UID != null){
+      const result = (await this.firestore.collection(`users/${UID}/incomes`,ref => ref.where('income_status','==',true)).get().toPromise()).docs;
+      if(result != null){
+        result.forEach(element => {
+          incomes.push(element.data());
+        });
+        incomes.forEach(e =>{total += parseFloat(e.income_ammount)});
+      }
+    }
+    return total;
   }
 
   formatoFecha(fecha, formato) {

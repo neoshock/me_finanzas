@@ -24,13 +24,18 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithEmail(){
+    const loading = await this.loading_controller.create({message: 'Espere un momento...'});
     if(this.user_login.value.email != "" && this.user_login.value.password != ""){
+      loading.present();
       var user = await this.user_services.login_user(this.user_login.value);
       if(user == "auth/network-request-failed"){
+        loading.dismiss();
         this.presentAlert("Error de conexión inténtelo más tarde")
       }else if (user == "auth/wrong-password"){
+        loading.dismiss();
         this.presentAlert("Correo o contraseña incorrecto");
       }else{
+        loading.dismiss();
         if(user.user.uid != null){
           window.location.reload();
         }
@@ -47,6 +52,48 @@ export class LoginPage implements OnInit {
     }else{
       this.presentLoading();
     }
+  }
+
+  async loginFacebook(){
+    const loading = await this.loading_controller.create({message: 'Espere un momento...'});
+    loading.present();
+    this.user_services.singInWithFacebook().then((result)=>{
+      if(result){
+        loading.dismiss();
+        window.location.reload();
+      }else{
+        loading.dismiss();
+      }
+    }).catch((error)=>{
+      loading.dismiss();
+      this.presentAlert("Error de conexión inténtelo más tarde");
+    });
+  }
+
+  async loginGoogle(){
+    const loading = await this.loading_controller.create({message: 'Espere un momento...'});
+    loading.present();
+    this.user_services.singInWithGoogle().then(result=>{
+      if(result){
+        loading.dismiss();
+        window.location.reload();
+      }else{
+        loading.dismiss();
+      }
+    }).catch(error=>{
+      loading.dismiss();
+      this.presentAlert(error.code);
+    })
+  }
+
+  
+  async presentAlertTemp(message){
+    const alert = await this.alert_ctrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Atencion',
+      message: message,
+    });
+    await alert.present();
   }
 
   async presentAlertToReset(){

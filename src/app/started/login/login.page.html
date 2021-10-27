@@ -3,8 +3,8 @@
     <ion-row>
       <ion-col size="12" class="options-buttons">
         <div class="register-links">
-          <ion-button shape="round">Ingresar</ion-button>
-          <ion-button shape="round" class="active" color="secondary" [routerLink]="['/started/register']" >Registrarse</ion-button>
+          <ion-button shape="round" color="primary">Ingresar</ion-button>
+          <ion-button shape="round" color="secondary" [routerLink]="['/started/register']" >Registrarse</ion-button>
         </div>
       </ion-col>
         <ion-col size="12" class="login-form">
@@ -22,6 +22,20 @@
         </ion-col>
         <ion-col size="12" class="forgot">
           <a class="info-forgot" (click)="presentAlertToReset()">Has olvidado tu Contraseña</a>
+        </ion-col>
+        <ion-col size="12" class="options-title">
+          <div class="line"></div>
+          <ion-label>Ingresar con</ion-label>
+        </ion-col>
+        <ion-col size="12" class="other-login">
+          <div class="buttons">
+            <ion-button class="google" shape="round" color="danger" (click)="loginGoogle()">
+              <ion-icon name="logo-google"></ion-icon> <p>Google</p> 
+            </ion-button>
+            <ion-button class="facebook" shape="round" color="facebook" (click)="loginFacebook()">
+              <ion-icon name="logo-facebook"></ion-icon> <p>Facebook</p> 
+            </ion-button>
+          </div>
         </ion-col>
     </ion-row>
   </ion-grid>

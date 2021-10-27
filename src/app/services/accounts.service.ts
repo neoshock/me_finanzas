@@ -176,7 +176,7 @@ export class AccountsService {
   public async getAccount(account_id){
     const userUID = (await this.user_service.getCurrentUser()).uid;
     if(userUID != null){
-      const accountResult = this.firestore.collection(`users/${userUID}/accounts/`).doc(account_id);
+      const accountResult = await this.firestore.collection(`users/${userUID}/accounts/`).doc(account_id);
       var result = await accountResult.get().pipe(first()).toPromise();
       var dataEncrypt: Data = result.data();
       if(dataEncrypt.data){

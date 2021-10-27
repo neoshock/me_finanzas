@@ -1,0 +1,20 @@
+<ion-list>
+  <ion-list-header *ngIf="this.pendingMovements.length == 0">
+    <ion-label>
+      <h2>Cargando...</h2>
+    </ion-label>
+  </ion-list-header>
+  <ion-item lines="full" *ngFor="let item of pendingMovements">
+    <ion-label>
+      <h2>{{item.movement_name}}</h2>
+    </ion-label>
+
+    <ion-chip color="warning" *ngIf="item.movement_type == 'Ingreso'" (click)="showDetailIncome(item.movement_id)"> 
+      {{item.movement_ammount}}
+    </ion-chip>
+
+    <ion-chip color="warning" *ngIf="item.movement_type == 'Gasto'" (click)="showDetailExpense(item.movement_id)"> 
+      {{item.movement_ammount}}
+    </ion-chip>
+  </ion-item>
+</ion-list>

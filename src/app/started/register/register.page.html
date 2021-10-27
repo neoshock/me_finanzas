@@ -4,8 +4,8 @@
     <ion-row>
       <ion-col size="12" class="options-buttons">
         <div class="register-links">
-          <ion-button shape="round" class="active" [routerLink]="['/started/login']">Ingresar</ion-button>
-          <ion-button shape="round" color="secondary">Registrarse</ion-button>
+          <ion-button shape="round" color="secondary"  [routerLink]="['/started/login']">Ingresar</ion-button>
+          <ion-button shape="round" color="primary">Registrarse</ion-button>
         </div>
       </ion-col>
       <ion-col size="12" class="register-form">
@@ -25,7 +25,7 @@
             </div>
             <div class="input input-check">
               <ion-checkbox color="primary" formControlName="accept_terms"></ion-checkbox>
-              <ion-label>Acepto los términos y condiciones de uso</ion-label>
+              <ion-label>Acepto los <a target="_blank" href="https://smallpdf.com/shared#st=9434babe-03dc-4709-88db-060a6bc574c3&fn=Finanzas+Politicas+de+Privacidad+-+2021.pdf&ct=1620185244648&tl=share-document&rf=link">términos y condiciones de uso</a></ion-label>
             </div>
           </div>
           <div class="buttons">

@@ -8,7 +8,7 @@ import {AddExpensePage} from '../add-expense/add-expense.page';
 interface ExpenseData {
   expense_name?: string;
   expense_description?: string;
-  expense_ammount?: number;
+  expense_ammount?: any;
   expense_dateReceive?: string;
   expense_accountDestine?: any;
   expense_status?:boolean;
@@ -54,6 +54,7 @@ export class ExpenseDetailPage implements OnInit {
     result.expense_accountDestine = "Cargando...";
     this.expense_object = result;
     this.expense_object.expense_accountDestine = await this.account_service.getAccountNumber(this.account_id);
+    this.expense_object.expense_ammount = parseFloat(this.expense_object.expense_ammount).toFixed(2);
   }
 
   expenseSuccess(){

@@ -76,6 +76,14 @@ const routes: Routes = [
   {
     path: 'finger-print',
     loadChildren: () => import('./finger-print/finger-print.module').then( m => m.FingerPrintPageModule)
+  },
+  {
+    path: 'tabnav',
+    loadChildren: () => import('./tabs/tabnav/tabnav.module').then( m => m.TabnavPageModule)
+  },
+  {
+    path: 'movements',
+    loadChildren: () => import('./items/movements/movements.module').then( m => m.MovementsPageModule)
   }
 ];
 
