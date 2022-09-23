@@ -16,7 +16,7 @@ export class FingerPrintPage implements OnInit {
 
 
   ngOnInit() {
-    
+    this.showDataBiometrics();
   }
 
   showDataBiometrics(){

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Mis Finanzas </string>
+    <string name="title_activity_main">Mis Finanzas </string>
+    <string name="package_name">com.neoshock.finanzas</string>
+    <string name="custom_url_scheme">com.neoshock.finanzas</string>
+
+    <string name="fb_app_id">495188761664018</string>
+    <string name="fb_app_name">Mis Finanzas</string>
+    <bool name="fb_auto_log_app_events_enabled">true</bool>
+    <bool name="fb_advertiser_id_collection_enabled">true</bool>
+</resources>
